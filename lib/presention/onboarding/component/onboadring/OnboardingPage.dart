@@ -2,8 +2,8 @@
  
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/model/OnboardingData.dart';
-import 'package:flutter_application_1/presention/component/onboadring/OnboardingContent.dart';
-import 'package:flutter_application_1/presention/component/onboadring/OnboardingIcon.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingContent.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingIcon.dart';
 
 class OnboardingPage extends StatefulWidget {
   final OnboardingData data;

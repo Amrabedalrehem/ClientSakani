@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/datasource/onboardingdatasource.dart';
- import 'package:flutter_application_1/presention/component/onboadring/AnimatedGradientBackground.dart';
-import 'package:flutter_application_1/presention/component/onboadring/DotsIndicator.dart';
-import 'package:flutter_application_1/presention/component/onboadring/OnboardingButton.dart';
- import 'package:flutter_application_1/presention/component/onboadring/OnboardingPage.dart';
+ import 'package:flutter_application_1/presention/onboarding/component/onboadring/AnimatedGradientBackground.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/DotsIndicator.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingButton.dart';
+ import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingPage.dart';
 
 
 class OnboardingScreen extends StatefulWidget {
