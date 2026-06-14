@@ -3,9 +3,9 @@ import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/data/model/HomeData.dart';
 import 'package:flutter_application_1/data/network/HiveService.dart';
 import 'package:flutter_application_1/data/repo/SavedRepository.dart';
+import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/home/component/PropertyCard.dart';
 import 'package:flutter_application_1/presention/save/component/empty_state.dart';
- 
 import 'package:flutter_application_1/presention/save/component/saved_app_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -52,7 +52,14 @@ class _SavedScreenState extends State<SavedScreen> {
 
               return PropertyCard(
                 property: property.copyWith(isSaved: true),
-                onTap: () {},
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PropertyDetailScreen(
+                      property: property.copyWith(isSaved: true),
+                    ),
+                  ),
+                ),
                 onSaveToggle: (val) async {
                   await _repo.toggleSaved(property.id);
                 },

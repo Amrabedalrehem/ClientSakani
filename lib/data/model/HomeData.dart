@@ -10,28 +10,45 @@ class PropertyModel {
   final String name;
   final String area;
   final String imageUrl;
+  final List<String> images;
   final int pricePerMonth;
   final int totalBeds;
   final int availableBeds;
+  final int totalRooms;
   final List<String> amenities;
   final PropertyGender gender;
   final bool isSaved;
   final double lat;
   final double lng;
+  final String address;
+  final String phone;
+  final String apartmentCode;
+  final List<String> rules;
 
   const PropertyModel({
     required this.id,
     required this.name,
     required this.area,
     required this.imageUrl,
+    this.images = const [],
     required this.pricePerMonth,
     required this.totalBeds,
     required this.availableBeds,
+    this.totalRooms = 3,
     required this.amenities,
     required this.gender,
     this.isSaved = false,
-    this.lat = 30.0444,  
+    this.lat = 30.0444,
     this.lng = 31.2357,
+    this.address = '',
+    this.phone = '',
+    this.apartmentCode = '',
+    this.rules = const [
+      'No smoking',
+      'No pets',
+      'Quiet hours 10PM-7AM',
+      'Keep common areas clean',
+    ],
   });
 
   AvailabilityStatus get availabilityStatus {
@@ -39,6 +56,9 @@ class PropertyModel {
     if (availableBeds <= 2) return AvailabilityStatus.limitedBeds;
     return AvailabilityStatus.available;
   }
+
+  List<String> get allImages =>
+      images.isNotEmpty ? images : [imageUrl];
 
   PropertyModel copyWith({
     bool? isSaved,
@@ -48,14 +68,20 @@ class PropertyModel {
       name: name,
       area: area,
       imageUrl: imageUrl,
+      images: images,
       pricePerMonth: pricePerMonth,
       totalBeds: totalBeds,
       availableBeds: availableBeds,
+      totalRooms: totalRooms,
       amenities: amenities,
       gender: gender,
       isSaved: isSaved ?? this.isSaved,
       lat: lat,
       lng: lng,
+      address: address,
+      phone: phone,
+      apartmentCode: apartmentCode,
+      rules: rules,
     );
   }
 }

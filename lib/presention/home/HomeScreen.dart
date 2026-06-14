@@ -3,6 +3,7 @@ import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/data/model/HomeData.dart';
 import 'package:flutter_application_1/data/network/HiveService.dart';
 import 'package:flutter_application_1/data/repo/SavedRepository.dart';
+import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/home/component/EmptyState.dart';
 import 'package:flutter_application_1/presention/home/component/HomeAppBar.dart' show HomeAppBar;
 import 'package:flutter_application_1/presention/home/component/HomeBottomNavBar.dart';
@@ -66,8 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _showFilters = !_showFilters);
   }
 
-  void _onPropertyTap(String id) {
-    // TODO: navigate to property details
+  void _onPropertyTap(PropertyModel property) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PropertyDetailScreen(property: property),
+      ),
+    );
   }
 
    Widget _buildHomePage() {
@@ -117,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         final property = filtered[index];
                         return PropertyCard(
                           property: property,
-                          onTap: () => _onPropertyTap(property.id),
+                          onTap: () => _onPropertyTap(property),
                           onSaveToggle: (val) => _toggleSave(property.id, val),
                         );
                       },

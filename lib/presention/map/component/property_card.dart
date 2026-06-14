@@ -6,17 +6,21 @@ class PropertyCard extends StatelessWidget {
   final PropertyModel property;
   final bool isSaved;
   final VoidCallback onClose;
+  final VoidCallback? onTap;
 
   const PropertyCard({
     super.key,
     required this.property,
     required this.isSaved,
     required this.onClose,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -69,12 +73,13 @@ class PropertyCard extends StatelessWidget {
               ],
             ),
           ),
-
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: onClose,
-          ),
-        ],
+        
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: onClose,
+            ),
+          ],
+        ),
       ),
     );
   }

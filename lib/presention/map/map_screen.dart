@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/model/HomeData.dart';
- import 'package:flutter_application_1/presention/map/component/filter_toggle.dart';
+import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
+import 'package:flutter_application_1/presention/map/component/filter_toggle.dart';
 import 'package:flutter_application_1/presention/map/component/map_legend.dart';
 import 'package:flutter_application_1/presention/map/component/property_card.dart';
 import 'package:flutter_application_1/presention/map/component/property_marker.dart';
@@ -105,6 +106,14 @@ class _MapScreenState extends State<MapScreen> {
                 isSaved: _repo.isSaved(_selectedProperty!.id),
                 onClose: () =>
                     setState(() => _selectedProperty = null),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PropertyDetailScreen(
+                      property: _selectedProperty!,
+                    ),
+                  ),
+                ),
               ),
             ),
 
