@@ -47,6 +47,8 @@ final List<PropertyModel> kDummyProperties = [
     availableBeds: 2,
     amenities: ['WiFi', 'Electricity', 'Water'],
     gender: PropertyGender.males,
+    lat: 30.0444,
+    lng: 31.2357,
   ),
   const PropertyModel(
     id: '2',
@@ -58,6 +60,8 @@ final List<PropertyModel> kDummyProperties = [
     availableBeds: 0,
     amenities: ['WiFi', 'Electricity', 'Water'],
     gender: PropertyGender.mixed,
+    lat: 30.0600,
+    lng: 31.2800,
   ),
   const PropertyModel(
     id: '3',
@@ -69,6 +73,8 @@ final List<PropertyModel> kDummyProperties = [
     availableBeds: 5,
     amenities: ['WiFi', 'Electricity', 'Water'],
     gender: PropertyGender.females,
+    lat: 30.0300,
+    lng: 31.2100,
   ),
 ];
 

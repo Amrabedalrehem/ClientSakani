@@ -8,6 +8,7 @@ import 'package:flutter_application_1/presention/home/component/HomeAppBar.dart'
 import 'package:flutter_application_1/presention/home/component/HomeBottomNavBar.dart';
 import 'package:flutter_application_1/presention/home/component/HomeFilterSection.dart';
 import 'package:flutter_application_1/presention/home/component/PropertyCard.dart';
+import 'package:flutter_application_1/presention/map/map_screen.dart';
 import 'package:flutter_application_1/presention/save/saved_screen.dart';
 import 'package:flutter_application_1/presention/settings/settings_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -132,8 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
      final navIndex = {
       BottomNavItem.home: 0,
-      BottomNavItem.saved: 1,
-      BottomNavItem.settings: 2,
+      BottomNavItem.map: 1,
+      BottomNavItem.saved: 2,
+      BottomNavItem.settings: 3,
     };
 
     return Scaffold(
@@ -149,12 +151,15 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
            _buildHomePage(),
 
+           const MapScreen(),
+
            SavedScreen(
             onBrowseTap: () {
               setState(() => _currentNav = BottomNavItem.home);
             },
           ),
-           const SettingsScreen(),
+ 
+          const SettingsScreen(),
         ],
       ),
       bottomNavigationBar: ValueListenableBuilder(

@@ -16,6 +16,8 @@ class PropertyModel {
   final List<String> amenities;
   final PropertyGender gender;
   final bool isSaved;
+  final double lat;
+  final double lng;
 
   const PropertyModel({
     required this.id,
@@ -28,6 +30,8 @@ class PropertyModel {
     required this.amenities,
     required this.gender,
     this.isSaved = false,
+    this.lat = 30.0444,  
+    this.lng = 31.2357,
   });
 
   AvailabilityStatus get availabilityStatus {
@@ -50,17 +54,21 @@ class PropertyModel {
       amenities: amenities,
       gender: gender,
       isSaved: isSaved ?? this.isSaved,
+      lat: lat,
+      lng: lng,
     );
   }
 }
 
-enum BottomNavItem { home, saved, settings }
+enum BottomNavItem { home, map, saved, settings }
 
 extension BottomNavItemExt on BottomNavItem {
   String get label {
     switch (this) {
       case BottomNavItem.home:
         return 'Home';
+      case BottomNavItem.map:
+        return 'Map';
       case BottomNavItem.saved:
         return 'Saved';
       case BottomNavItem.settings:
@@ -72,6 +80,8 @@ extension BottomNavItemExt on BottomNavItem {
     switch (this) {
       case BottomNavItem.home:
         return Icons.home_rounded;
+      case BottomNavItem.map:
+        return Icons.location_on_outlined;
       case BottomNavItem.saved:
         return Icons.bookmark_border_rounded;
       case BottomNavItem.settings:
@@ -83,6 +93,8 @@ extension BottomNavItemExt on BottomNavItem {
     switch (this) {
       case BottomNavItem.home:
         return Icons.home_rounded;
+      case BottomNavItem.map:
+        return Icons.location_on_rounded;
       case BottomNavItem.saved:
         return Icons.bookmark_rounded;
       case BottomNavItem.settings:
