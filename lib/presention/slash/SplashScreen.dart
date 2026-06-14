@@ -1,7 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
+import 'package:flutter_application_1/presention/home/HomeScreen.dart';
+import 'package:flutter_application_1/presention/onboarding/OnboardingScreen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        if (SettingsService.isFirstTime) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +58,7 @@ class SplashScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(28),
               ),
               child: const Icon(
-                Icons.home_rounded,
+                Icons.apartment_rounded,
                 size: 64,
                 color: Colors.white,
               ),

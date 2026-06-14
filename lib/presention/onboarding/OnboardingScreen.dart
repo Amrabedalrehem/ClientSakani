@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/datasource/onboardingdatasource.dart';
- import 'package:flutter_application_1/presention/onboarding/component/onboadring/AnimatedGradientBackground.dart';
+import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
+import 'package:flutter_application_1/presention/home/HomeScreen.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/AnimatedGradientBackground.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/DotsIndicator.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingButton.dart';
- import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingPage.dart';
+import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingPage.dart';
 
 
 class OnboardingScreen extends StatefulWidget {
@@ -33,14 +35,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _onGetStarted() {
-   }
+    _finishOnboarding();
+  }
 
   void _onSkip() {
-    _pageController.animateToPage(
-      kOnboardingPages.length - 1,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+    _finishOnboarding();
+  }
+
+  void _finishOnboarding() async {
+    await SettingsService.setFirstTime(false);
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    }
   }
 
   @override

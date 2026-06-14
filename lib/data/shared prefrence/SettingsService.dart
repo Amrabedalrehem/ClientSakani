@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsService {
   static const String _darkModeKey = 'dark_mode';
   static const String _languageKey = 'language';
+  static const String _firstTimeKey = 'first_time';
 
   static late SharedPreferences _prefs;
 
@@ -23,4 +24,10 @@ class SettingsService {
   }
 
   static bool get isArabic => language == 'ar';
+
+  static bool get isFirstTime => _prefs.getBool(_firstTimeKey) ?? true;
+
+  static Future<void> setFirstTime(bool value) async {
+    await _prefs.setBool(_firstTimeKey, value);
+  }
 }

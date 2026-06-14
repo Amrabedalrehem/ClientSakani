@@ -49,7 +49,7 @@ class _SakaniAppState extends State<SakaniApp> {
       ),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       locale: _locale,
-      home: HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
