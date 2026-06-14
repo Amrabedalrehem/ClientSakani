@@ -35,17 +35,32 @@ class PropertyModel {
     if (availableBeds <= 2) return AvailabilityStatus.limitedBeds;
     return AvailabilityStatus.available;
   }
+
+  PropertyModel copyWith({
+    bool? isSaved,
+  }) {
+    return PropertyModel(
+      id: id,
+      name: name,
+      area: area,
+      imageUrl: imageUrl,
+      pricePerMonth: pricePerMonth,
+      totalBeds: totalBeds,
+      availableBeds: availableBeds,
+      amenities: amenities,
+      gender: gender,
+      isSaved: isSaved ?? this.isSaved,
+    );
+  }
 }
 
-enum BottomNavItem { home, map, saved, settings }
+enum BottomNavItem { home, saved, settings }
 
 extension BottomNavItemExt on BottomNavItem {
   String get label {
     switch (this) {
       case BottomNavItem.home:
         return 'Home';
-      case BottomNavItem.map:
-        return 'Map';
       case BottomNavItem.saved:
         return 'Saved';
       case BottomNavItem.settings:
@@ -57,8 +72,6 @@ extension BottomNavItemExt on BottomNavItem {
     switch (this) {
       case BottomNavItem.home:
         return Icons.home_rounded;
-      case BottomNavItem.map:
-        return Icons.location_on_outlined;
       case BottomNavItem.saved:
         return Icons.bookmark_border_rounded;
       case BottomNavItem.settings:
@@ -70,8 +83,6 @@ extension BottomNavItemExt on BottomNavItem {
     switch (this) {
       case BottomNavItem.home:
         return Icons.home_rounded;
-      case BottomNavItem.map:
-        return Icons.location_on_rounded;
       case BottomNavItem.saved:
         return Icons.bookmark_rounded;
       case BottomNavItem.settings:
@@ -79,15 +90,15 @@ extension BottomNavItemExt on BottomNavItem {
     }
   }
 }
+
 class FilterValues {
   final String area;
   final GenderFilter gender;
   final int? maxPrice;
- 
+
   const FilterValues({
     required this.area,
     required this.gender,
     this.maxPrice,
   });
 }
- 

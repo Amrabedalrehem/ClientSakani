@@ -43,7 +43,7 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
       _selectedGender = GenderFilter.all;
       _priceController.clear();
     });
-    widget.onActiveFiltersChanged(0);
+    _notifyFilterChange();
   }
 
   void _notifyFilterChange() {
