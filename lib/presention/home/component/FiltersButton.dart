@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FiltersButton extends StatelessWidget {
   final int activeCount;
@@ -12,17 +13,17 @@ class FiltersButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: activeCount > 0
               ? const Color(0xFF1A7EC8).withOpacity(0.08)
               : Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: activeCount > 0
                 ? const Color(0xFF1A7EC8)
                 : const Color(0xFFE0E0E0),
-            width: 1.5,
+            width: 1.5.w,
           ),
         ),
         child: Row(
@@ -30,14 +31,14 @@ class FiltersButton extends StatelessWidget {
           children: [
             Icon(
               Icons.tune_rounded,
-              size: 18,
+              size: 18.sp,
               color: activeCount > 0 ? const Color(0xFF1A7EC8) : Colors.grey,
             ),
-            const SizedBox(width: 6),
+            SizedBox(width: 6.w),
             Text(
               'Filters',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 color: activeCount > 0
                     ? const Color(0xFF1A7EC8)
@@ -46,19 +47,19 @@ class FiltersButton extends StatelessWidget {
             ),
 
              if (activeCount > 0) ...[
-              const SizedBox(width: 6),
+              SizedBox(width: 6.w),
               Container(
-                width: 20,
-                height: 20,
-                decoration: const BoxDecoration(
+                width: 20.w,
+                height: 20.h,
+                decoration: BoxDecoration(
                   color: Color(0xFF1A7EC8),
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
                     '$activeCount',
-                    style: const TextStyle(
-                      fontSize: 11,
+                    style: TextStyle(
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

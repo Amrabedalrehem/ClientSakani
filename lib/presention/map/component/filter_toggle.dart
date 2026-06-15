@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterToggle extends StatelessWidget {
   final bool isSavedOnly;
@@ -15,15 +16,15 @@ class FilterToggle extends StatelessWidget {
     return GestureDetector(
       onTap: onToggle,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 7,
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+          vertical: 7.h,
         ),
         decoration: BoxDecoration(
           color: isSavedOnly
               ? const Color(0xFF1A7EC8)
               : const Color(0xFFF0F4F8),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Text(
           isSavedOnly ? 'Saved only' : 'All',

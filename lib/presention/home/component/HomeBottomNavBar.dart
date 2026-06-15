@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
  
 
@@ -30,7 +31,7 @@ class HomeBottomNavBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 64,
+          height: 64.h,
           child: Row(
             children: BottomNavItem.values.map((item) {
               return Expanded(
@@ -82,7 +83,7 @@ class HomeBottomNavBar extends StatelessWidget {
                 child: Icon(
                   isActive ? item.activeIcon : item.icon,
                   key: ValueKey(isActive),
-                  size: 24,
+                  size: 24.sp,
                   color: isActive ? activeColor : inactiveColor,
                 ),
               ),
@@ -92,17 +93,17 @@ class HomeBottomNavBar extends StatelessWidget {
                   top: -4,
                   right: -8,
                   child: Container(
-                    width: 18,
-                    height: 18,
-                    decoration: const BoxDecoration(
+                    width: 18.w,
+                    height: 18.h,
+                    decoration: BoxDecoration(
                       color: Color(0xFF1A7EC8),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
                         '$badge',
-                        style: const TextStyle(
-                          fontSize: 10,
+                        style: TextStyle(
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -113,25 +114,25 @@ class HomeBottomNavBar extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
 
            AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 11.sp,
               fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
               color: isActive ? activeColor : inactiveColor,
             ),
             child: Text(item.label),
           ),
 
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
 
            AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             width: isActive ? 6 : 0,
             height: isActive ? 6 : 0,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: activeColor,
               shape: BoxShape.circle,
             ),

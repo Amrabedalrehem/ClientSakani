@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class TopLeftBadge extends StatelessWidget {
   final AvailabilityStatus status;
@@ -10,22 +11,22 @@ class TopLeftBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (status == AvailabilityStatus.available) return const SizedBox.shrink();
+    if (status == AvailabilityStatus.available) return SizedBox.shrink();
 
     final isFullyBooked = status == AvailabilityStatus.fullyBooked;
     final label = isFullyBooked ? 'Fully Booked' : '$availableBeds beds left';
     final color = isFullyBooked ? const Color(0xFFE53935) : const Color(0xFFFF9800);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          fontSize: 12,
+        style: TextStyle(
+          fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ),

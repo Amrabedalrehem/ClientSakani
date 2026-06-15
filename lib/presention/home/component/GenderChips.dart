@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-class GenderChips extends StatelessWidget {
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
+ class GenderChips extends StatelessWidget {
   final GenderFilter selected;
   final ValueChanged<GenderFilter> onChanged;
 
@@ -15,18 +16,18 @@ class GenderChips extends StatelessWidget {
 
         return Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
+            padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: GestureDetector(
               onTap: () => onChanged(gender),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: EdgeInsets.symmetric(vertical: 8.h),
                 decoration: BoxDecoration(
                   color: isSelected ? color : Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   border: Border.all(
                     color: isSelected ? color : const Color(0xFFDDDDDD),
-                    width: 1.5,
+                    width: 1.5.w,
                   ),
                 ),
                 child: Row(
@@ -34,14 +35,14 @@ class GenderChips extends StatelessWidget {
                   children: [
                     Icon(
                       gender.icon,
-                      size: 14,
+                      size: 14.sp,
                       color: isSelected ? Colors.white : Colors.grey[600],
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4.w),
                     Text(
                       gender.label,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: isSelected ? Colors.white : Colors.grey[700],
                       ),

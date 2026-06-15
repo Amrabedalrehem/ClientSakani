@@ -1,6 +1,7 @@
 
  
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 
  
@@ -28,44 +29,44 @@ class PriceInput extends StatelessWidget {
       onFocusChange: onFocusChange,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isActive
                 ? const Color(0xFF1A7EC8)
                 : const Color(0xFFDDDDDD),
-            width: 1.5,
+            width: 1.5.w,
           ),
         ),
         child: Row(
           children: [
             Icon(
               Icons.attach_money_rounded,
-              size: 18,
+              size: 18.sp,
               color: isActive ? const Color(0xFF1A7EC8) : Colors.grey,
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             Expanded(
               child: TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: onChanged,
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: 14.sp,
                   color: Color(0xFF333333),
                 ),
                 decoration: InputDecoration(
                   hintText: 'Max price per month',
                   hintStyle: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     color: Colors.grey[400],
                   ),
                   border: InputBorder.none,
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.h),
                 ),
               ),
             ),
@@ -79,8 +80,8 @@ class PriceInput extends StatelessWidget {
                       controller.text = '${current + 50}';
                       onChanged(controller.text);
                     },
-                    child: const Icon(Icons.arrow_drop_up,
-                        size: 20, color: Colors.grey),
+                    child: Icon(Icons.arrow_drop_up,
+                        size: 20.sp, color: Colors.grey),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -90,16 +91,16 @@ class PriceInput extends StatelessWidget {
                         onChanged(controller.text);
                       }
                     },
-                    child: const Icon(Icons.arrow_drop_down,
-                        size: 20, color: Colors.grey),
+                    child: Icon(Icons.arrow_drop_down,
+                        size: 20.sp, color: Colors.grey),
                   ),
                 ],
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4.w),
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close_rounded,
-                    size: 18, color: Colors.grey),
+                child: Icon(Icons.close_rounded,
+                    size: 18.sp, color: Colors.grey),
               ),
             ],
           ],

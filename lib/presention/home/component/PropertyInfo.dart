@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:flutter_application_1/presention/home/component/AmenitiesRow.dart';
 import 'package:flutter_application_1/presention/home/component/AvailabilityChip.dart';
 import 'package:flutter_application_1/presention/home/component/GenderBadge.dart';
@@ -12,7 +13,7 @@ class PropertyInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -22,8 +23,8 @@ class PropertyInfo extends StatelessWidget {
               Expanded(
                 child: Text(
                   property.name,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1A1A2E),
                   ),
@@ -33,31 +34,31 @@ class PropertyInfo extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
            Row(
             children: [
-              const Icon(Icons.location_on_outlined,
-                  size: 15, color: Color(0xFF1A7EC8)),
-              const SizedBox(width: 4),
+              Icon(Icons.location_on_outlined,
+                  size: 15.sp, color: Color(0xFF1A7EC8)),
+              SizedBox(width: 4.w),
               Text(
                 property.area,
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                style: TextStyle(fontSize: 13.sp, color: Colors.grey),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
            Row(
             children: [
-              const Icon(Icons.bed_outlined, size: 15, color: Colors.grey),
-              const SizedBox(width: 4),
+              Icon(Icons.bed_outlined, size: 15.sp, color: Colors.grey),
+              SizedBox(width: 4.w),
               Text(
                 '${property.totalBeds} beds',
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                style: TextStyle(fontSize: 13.sp, color: Colors.grey),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               AvailabilityChip(
                 status: property.availabilityStatus,
                 availableBeds: property.availableBeds,
@@ -65,7 +66,7 @@ class PropertyInfo extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
  
           AmenitiesRow(amenities: property.amenities),
         ],

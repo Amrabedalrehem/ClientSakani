@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailImageCarousel extends StatefulWidget {
   final List<String> images;
@@ -12,9 +14,30 @@ class DetailImageCarousel extends StatefulWidget {
 class _DetailImageCarouselState extends State<DetailImageCarousel> {
   final PageController _controller = PageController();
   int _current = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoPlay();
+  }
+
+  void _startAutoPlay() {
+    _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (widget.images.isNotEmpty && _controller.hasClients) {
+        int next = (_current + 1) % widget.images.length;
+        _controller.animateToPage(
+          next,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -31,7 +54,7 @@ class _DetailImageCarouselState extends State<DetailImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 260,
+      height: 260.h,
       child: Stack(
         children: [
           PageView.builder(
@@ -44,44 +67,44 @@ class _DetailImageCarouselState extends State<DetailImageCarousel> {
               width: double.infinity,
               errorBuilder: (_, __, ___) => Container(
                 color: const Color(0xFFEEEEEE),
-                child: const Icon(Icons.broken_image_rounded,
-                    size: 48, color: Colors.grey),
+                child: Icon(Icons.broken_image_rounded,
+                    size: 48.sp, color: Colors.grey),
               ),
             ),
           ),
 
           if (_current > 0)
             Positioned(
-              left: 12,
-              top: 0,
-              bottom: 0,
+              left: 12.w,
+              top: 0.h,
+              bottom: 0.h,
               child: Center(child: _NavBtn(icon: Icons.chevron_left_rounded, onTap: () => _go(-1))),
             ),
 
           if (_current < widget.images.length - 1)
             Positioned(
-              right: 12,
-              top: 0,
-              bottom: 0,
+              right: 12.w,
+              top: 0.h,
+              bottom: 0.h,
               child: Center(child: _NavBtn(icon: Icons.chevron_right_rounded, onTap: () => _go(1))),
             ),
 
           Positioned(
-            bottom: 12,
-            left: 0,
-            right: 0,
+            bottom: 12.h,
+            left: 0.w,
+            right: 0.w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(widget.images.length, (i) {
                 final active = i == _current;
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  margin: EdgeInsets.symmetric(horizontal: 3.w),
                   width: active ? 18 : 7,
-                  height: 7,
+                  height: 7.h,
                   decoration: BoxDecoration(
                     color: active ? Colors.white : Colors.white54,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 );
               }),
@@ -103,13 +126,13 @@ class _NavBtn extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 36,
-        height: 36,
+        width: 36.w,
+        height: 36.h,
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.45),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: Colors.white, size: 22),
+        child: Icon(icon, color: Colors.white, size: 22.sp),
       ),
     );
   }

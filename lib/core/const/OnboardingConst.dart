@@ -1,6 +1,10 @@
- 
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/OnboardingData.dart';
+import 'package:flutter_application_1/data/model/OnboardingModel.dart';
+
+
+
 
 const List<OnboardingData> kOnboardingPages = [
   OnboardingData(

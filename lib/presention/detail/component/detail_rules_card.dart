@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class DetailRulesCard extends StatelessWidget {
   final PropertyModel property;
@@ -9,11 +10,11 @@ class DetailRulesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -25,38 +26,38 @@ class DetailRulesCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Housing Rules',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
               color: Color(0xFF1A1A2E),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ...property.rules.map(
             (rule) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 8.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 6),
-                    width: 6,
-                    height: 6,
-                    decoration: const BoxDecoration(
+                    margin: EdgeInsets.only(top: 6.h),
+                    width: 6.w,
+                    height: 6.h,
+                    decoration: BoxDecoration(
                       color: Color(0xFF1A7EC8),
                       shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: Text(
                       rule,
-                      style: const TextStyle(
-                        fontSize: 13,
+                      style: TextStyle(
+                        fontSize: 13.sp,
                         color: Color(0xFF444444),
-                        height: 1.4,
+                        height: 1.4.h,
                       ),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PriceBadge extends StatelessWidget {
   final int price;
@@ -8,25 +9,25 @@ class PriceBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
         children: [
-          const Text(
+          Text(
             '\$ ',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 12.sp,
               color: Color(0xFF4CAF50),
               fontWeight: FontWeight.w600,
             ),
           ),
           Text(
             '$price/mo',
-            style: const TextStyle(
-              fontSize: 12,
+            style: TextStyle(
+              fontSize: 12.sp,
               fontWeight: FontWeight.bold,
               color: Color(0xFF1A1A2E),
             ),

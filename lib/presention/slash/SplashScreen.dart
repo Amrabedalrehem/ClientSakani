@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
 import 'package:flutter_application_1/presention/home/HomeScreen.dart';
 import 'package:flutter_application_1/presention/onboarding/OnboardingScreen.dart';
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -50,37 +51,24 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Container(
-              width: 110,
-              height: 110,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.25),
-                borderRadius: BorderRadius.circular(28),
-              ),
-              child: const Icon(
-                Icons.apartment_rounded,
-                size: 64,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 24),
 
-             const Text(
+
+             Text(
               'Sakani',
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 32.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 letterSpacing: 0.5,
               ),
             ),
 
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
 
-             const Text(
+             Text(
               'STUDENT HOUSING',
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 letterSpacing: 3.5,

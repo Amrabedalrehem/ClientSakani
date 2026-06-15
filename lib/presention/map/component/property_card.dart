@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class PropertyCard extends StatelessWidget {
   final PropertyModel property;
@@ -21,10 +22,10 @@ class PropertyCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.12),
@@ -36,9 +37,9 @@ class PropertyCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
-            decoration: const BoxDecoration(
+            width: 48.w,
+            height: 48.h,
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Color(0xFF1A7EC8),
@@ -46,15 +47,15 @@ class PropertyCard extends StatelessWidget {
                 ],
               ),
               borderRadius: BorderRadius.all(
-                Radius.circular(12),
+                Radius.circular(12.r),
               ),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.apartment_rounded,
               color: Colors.white,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
 
           Expanded(
             child: Column(
@@ -75,7 +76,7 @@ class PropertyCard extends StatelessWidget {
           ),
         
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: Icon(Icons.close),
               onPressed: onClose,
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class DetailHeaderCard extends StatelessWidget {
   final PropertyModel property;
@@ -10,11 +11,11 @@ class DetailHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
@@ -32,61 +33,61 @@ class DetailHeaderCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   property.name,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1A1A2E),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Row(
                     children: [
-                      const Text(
+                      Text(
                         '\$ ',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF22C55E),
                         ),
                       ),
                       Text(
                         '${property.pricePerMonth}',
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF22C55E),
                         ),
                       ),
                     ],
                   ),
-                  const Text(
+                  Text(
                     'per month',
-                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                    style: TextStyle(fontSize: 11.sp, color: Colors.grey),
                   ),
                 ],
               ),
             ],
           ),
 
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
 
           Row(
             children: [
-              const Icon(Icons.location_on_rounded,
-                  size: 14, color: Color(0xFF1A7EC8)),
-              const SizedBox(width: 3),
+              Icon(Icons.location_on_rounded,
+                  size: 14.sp, color: Color(0xFF1A7EC8)),
+              SizedBox(width: 3.w),
               Text(
                 property.area,
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                style: TextStyle(fontSize: 13.sp, color: Colors.grey),
               ),
             ],
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           Row(
             children: [
@@ -97,7 +98,7 @@ class DetailHeaderCard extends StatelessWidget {
                 bgColor: const Color(0xFFE8F5E9),
                 fgColor: const Color(0xFF22C55E),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               _Chip(
                 icon: property.gender.icon,
                 label: '${property.gender.label} Only',
@@ -128,20 +129,20 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: fgColor),
-          const SizedBox(width: 4),
+          Icon(icon, size: 13.sp, color: fgColor),
+          SizedBox(width: 4.w),
           Text(
             label,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               color: fgColor,
             ),

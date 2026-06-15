@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class PropertyMarker extends StatelessWidget {
   final PropertyModel property;
@@ -27,7 +28,7 @@ class PropertyMarker extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2.5),
+        border: Border.all(color: Colors.white, width: 2.5.w),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.4),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
-import 'package:flutter_application_1/data/network/HiveService.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/core/dp/HiveService.dart';
 import 'package:flutter_application_1/data/repo/SavedRepository.dart';
+import 'package:flutter_application_1/data/model/AreaModel.dart';
 import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/home/component/EmptyState.dart';
 import 'package:flutter_application_1/presention/home/component/HomeAppBar.dart' show HomeAppBar;
@@ -25,36 +28,78 @@ class _HomeScreenState extends State<HomeScreen> {
   BottomNavItem _currentNav = BottomNavItem.home;
   int _activeFiltersCount = 0;
   bool _showFilters = false;
+  bool _isLoading = true;
 
   final SavedRepository _savedRepo = SavedRepository();
+
+  List<PropertyModel> _properties = [];
+  List<AreaModel> _areaModels = [];
+  List<String> _areas = ['All Areas'];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProperties();
+  }
+
+  Future<void> _fetchProperties() async {
+    try {
+      final results = await Future.wait([
+        _savedRepo.getApartments(),
+        _savedRepo.getAreas(),
+      ]);
+      setState(() {
+        _properties = results[0] as List<PropertyModel>;
+        _areaModels = results[1] as List<AreaModel>;
+        _areas = ['All Areas', ..._areaModels.map((e) => e.name)];
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _properties = []; 
+        _areaModels = [];
+        _areas = ['All Areas'];
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _fetchFilteredProperties(FilterValues values) async {
+    setState(() => _isLoading = true);
+    try {
+      int? areaId;
+      if (values.area != 'All Areas') {
+        final match = _areaModels.where((a) => a.name == values.area);
+        if (match.isNotEmpty) areaId = match.first.id;
+      }
+
+      int? genderId;
+      if (values.gender == GenderFilter.males) genderId = 0;
+      else if (values.gender == GenderFilter.females) genderId = 1;
+      
+      final maxPrice = values.maxPrice?.toDouble();
+
+      final properties = await _savedRepo.searchApartments(
+        areaId: areaId,
+        gender: genderId,
+        maxPrice: maxPrice,
+      );
+      setState(() {
+        _properties = properties;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _properties = [];
+        _isLoading = false;
+      });
+    }
+  }
 
   FilterValues _filterValues = const FilterValues(
     area: 'All Areas',
     gender: GenderFilter.all,
   );
-
-  List<PropertyModel> get _filteredProperties {
-    return kDummyProperties.where((p) {
-      if (_filterValues.area != 'All Areas' && p.area != _filterValues.area) {
-        return false;
-      }
-      if (_filterValues.gender != GenderFilter.all) {
-        final genderMatch = {
-          GenderFilter.males: PropertyGender.males,
-          GenderFilter.females: PropertyGender.females,
-          GenderFilter.mixed: PropertyGender.mixed,
-        };
-        if (p.gender != genderMatch[_filterValues.gender]) return false;
-      }
-      if (_filterValues.maxPrice != null &&
-          p.pricePerMonth > _filterValues.maxPrice!) {
-        return false;
-      }
-      return true;
-    })
-        .map((p) => p.copyWith(isSaved: _savedRepo.isSaved(p.id)))
-        .toList();
-  }
 
   int get _savedCount => _savedRepo.savedCount;
 
@@ -80,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return ValueListenableBuilder(
       valueListenable: HiveService.savedBox.listenable(),
       builder: (context, box, _) {
-        final filtered = _filteredProperties;
+        final filtered = _properties;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,24 +134,26 @@ class _HomeScreenState extends State<HomeScreen> {
               curve: Curves.easeInOut,
               child: _showFilters
                   ? HomeFilterSection(
+                      areas: _areas,
                       onActiveFiltersChanged: (count) {
                         setState(() => _activeFiltersCount = count);
                       },
                       onFiltersChanged: (values) {
                         setState(() => _filterValues = values);
+                        _fetchFilteredProperties(values);
                       },
                     )
-                  : const SizedBox.shrink(),
+                  : SizedBox.shrink(),
             ),
 
-            const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+            Divider(height: 1.h, thickness: 1, color: Color(0xFFEEEEEE)),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 4),
               child: Text(
                 '${filtered.length} properties found',
-                style: const TextStyle(
-                  fontSize: 13,
+                style: TextStyle(
+                  fontSize: 13.sp,
                   color: Colors.grey,
                   fontWeight: FontWeight.w500,
                 ),
@@ -114,10 +161,63 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Expanded(
-              child: filtered.isEmpty
-                  ? const EmptyState()
-                  : ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 16),
+              child: _isLoading 
+                  ? ListView.builder(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 180.h,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(14.r),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(height: 20.h, width: double.infinity, color: Colors.white),
+                                        SizedBox(height: 12.h),
+                                        Container(height: 16.h, width: 200.w, color: Colors.white),
+                                        SizedBox(height: 12.h),
+                                        Container(height: 16.h, width: 140.w, color: Colors.white),
+                                        SizedBox(height: 16.h),
+                                        Row(
+                                          children: [
+                                            Container(height: 32.h, width: 80.w, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r))),
+                                            SizedBox(width: 8.w),
+                                            Container(height: 32.h, width: 80.w, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r))),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : filtered.isEmpty
+                      ? const EmptyState()
+                      : ListView.builder(
+                      padding: EdgeInsets.only(bottom: 16.h),
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final property = filtered[index];
@@ -157,9 +257,10 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
            _buildHomePage(),
 
-           const MapScreen(),
+           MapScreen(properties: _properties),
 
            SavedScreen(
+            properties: _properties,
             onBrowseTap: () {
               setState(() => _currentNav = BottomNavItem.home);
             },

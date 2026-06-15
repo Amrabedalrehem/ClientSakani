@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LangButton extends StatelessWidget {
   final String label;
@@ -20,21 +21,21 @@ class LangButton extends StatelessWidget {
         duration: const Duration(
           milliseconds: 200,
         ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 7,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 7.h,
         ),
         decoration: BoxDecoration(
           color: isSelected
               ? const Color(0xFF1A7EC8)
               : Colors.transparent,
           borderRadius:
-              BorderRadius.circular(20),
+              BorderRadius.circular(20.r),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 13,
+            fontSize: 13.sp,
             fontWeight: FontWeight.bold,
             color: isSelected
                 ? Colors.white

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/network/HiveService.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/dp/HiveService.dart';
 import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
 import 'package:flutter_application_1/presention/home/HomeScreen.dart';
 import 'package:flutter_application_1/presention/onboarding/OnboardingScreen.dart';
@@ -28,28 +29,35 @@ class _SakaniAppState extends State<SakaniApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sakani',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1A7EC8),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1A7EC8),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      locale: _locale,
-      home: const SplashScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),  
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Sakani',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'Inter',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF1A7EC8),
+              brightness: Brightness.light,
+            ),
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            fontFamily: 'Inter',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF1A7EC8),
+              brightness: Brightness.dark,
+            ),
+            useMaterial3: true,
+          ),
+          themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          locale: _locale,
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }

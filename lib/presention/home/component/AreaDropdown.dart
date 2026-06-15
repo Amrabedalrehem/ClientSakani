@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AreaDropdown extends StatelessWidget {
   final String selectedArea;
   final List<String> areas;
@@ -16,15 +17,15 @@ class AreaDropdown extends StatelessWidget {
     final isFiltered = selectedArea != 'All Areas';
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: isFiltered
               ? const Color(0xFF1A7EC8)
               : const Color(0xFFDDDDDD),
-          width: 1.5,
+          width: 1.5.w,
         ),
       ),
       child: DropdownButtonHideUnderline(
@@ -36,12 +37,12 @@ class AreaDropdown extends StatelessWidget {
             color: isFiltered ? const Color(0xFF1A7EC8) : Colors.grey,
           ),
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             color: isFiltered ? const Color(0xFF1A7EC8) : const Color(0xFF555555),
             fontWeight: isFiltered ? FontWeight.w600 : FontWeight.w400,
           ),
           dropdownColor: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           items: areas.map((area) {
             final isSelected = area == selectedArea;
             return DropdownMenuItem(
@@ -50,16 +51,16 @@ class AreaDropdown extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.location_on_outlined,
-                    size: 16,
+                    size: 16.sp,
                     color: isSelected
                         ? const Color(0xFF1A7EC8)
                         : Colors.grey,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     area,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: isSelected
                           ? FontWeight.w600
                           : FontWeight.w400,

@@ -1,7 +1,8 @@
 
  
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/OnboardingData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+ import 'package:flutter_application_1/data/model/OnboardingModel.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingContent.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingIcon.dart';
 
@@ -58,13 +59,13 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
+      padding: EdgeInsets.symmetric(horizontal: 32.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
            OnboardingIcon(icon: widget.data.icon),
 
-          const SizedBox(height: 48),
+          SizedBox(height: 48.h),
           FadeTransition(
             opacity: _fadeAnim,
             child: SlideTransition(

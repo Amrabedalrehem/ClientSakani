@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/map/component/filter_toggle.dart';
 import 'package:flutter_application_1/presention/map/component/map_legend.dart';
@@ -7,11 +8,11 @@ import 'package:flutter_application_1/presention/map/component/property_card.dar
 import 'package:flutter_application_1/presention/map/component/property_marker.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/data/repo/SavedRepository.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final List<PropertyModel> properties;
+  const MapScreen({super.key, required this.properties});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -25,11 +26,11 @@ class _MapScreenState extends State<MapScreen> {
   List<PropertyModel> get _properties {
     if (_showSavedOnly) {
       final savedIds = _repo.getSavedIds();
-      return kDummyProperties
+      return widget.properties
           .where((p) => savedIds.contains(p.id))
           .toList();
     }
-    return kDummyProperties;
+    return widget.properties;
   }
 
   @override
@@ -41,10 +42,10 @@ class _MapScreenState extends State<MapScreen> {
         elevation: 0,
         scrolledUnderElevation: 0,
         titleSpacing: 16,
-        title: const Text('Map View'),
+        title: Text('Map View'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: EdgeInsets.only(right: 16.w),
             child: FilterToggle(
               isSavedOnly: _showSavedOnly,
               onToggle: () => setState(() {
@@ -59,8 +60,10 @@ class _MapScreenState extends State<MapScreen> {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: const LatLng(30.0444, 31.2357),
-              initialZoom: 12,
+              initialCenter: _properties.isNotEmpty && _properties.first.lat != 0
+                  ? LatLng(_properties.first.lat, _properties.first.lng)
+                  : (_properties.isNotEmpty ? LatLng(_properties.first.lat, _properties.first.lng) : const LatLng(30.0444, 31.2357)),
+              initialZoom: _properties.isNotEmpty && _properties.first.lat == 0 ? 3 : 12, // Zoom out more if it's 0,0
               onTap: (_, __) =>
                   setState(() => _selectedProperty = null),
             ),
@@ -98,9 +101,9 @@ class _MapScreenState extends State<MapScreen> {
 
           if (_selectedProperty != null)
             Positioned(
-              bottom: 16,
-              left: 16,
-              right: 16,
+              bottom: 16.h,
+              left: 16.w,
+              right: 16.w,
               child: PropertyCard(
                 property: _selectedProperty!,
                 isSaved: _repo.isSaved(_selectedProperty!.id),
@@ -117,9 +120,9 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
 
-          const Positioned(
-            top: 12,
-            right: 16,
+          Positioned(
+            top: 12.h,
+            right: 16.w,
             child: MapLegend(),
           ),
         ],

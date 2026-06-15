@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/datasource/onboardingdatasource.dart';
-import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/OnboardingConst.dart';
+ import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
 import 'package:flutter_application_1/presention/home/HomeScreen.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/AnimatedGradientBackground.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/DotsIndicator.dart';
@@ -75,11 +76,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   duration: const Duration(milliseconds: 300),
                   child: TextButton(
                     onPressed: isLast ? null : _onSkip,
-                    child: const Text(
+                    child: Text(
                       'Skip',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.white,
                       ),
@@ -103,14 +104,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
                Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+                padding: EdgeInsets.fromLTRB(24, 0, 24, 32),
                 child: Column(
                   children: [
                     DotsIndicator(
                       count: kOnboardingPages.length,
                       current: _currentPage,
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     OnboardingButton(
                       label: isLast ? 'Get Started 🚀' : 'Next',
                       onTap: _nextPage,

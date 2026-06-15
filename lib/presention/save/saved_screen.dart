@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
-import 'package:flutter_application_1/data/network/HiveService.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/core/dp/HiveService.dart';
 import 'package:flutter_application_1/data/repo/SavedRepository.dart';
 import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/home/component/PropertyCard.dart';
@@ -13,8 +13,9 @@ import 'package:hive_flutter/hive_flutter.dart';
  
 class SavedScreen extends StatefulWidget {
   final VoidCallback onBrowseTap;
+  final List<PropertyModel> properties;
 
-  const SavedScreen({super.key, required this.onBrowseTap});
+  const SavedScreen({super.key, required this.onBrowseTap, required this.properties});
 
   @override
   State<SavedScreen> createState() => _SavedScreenState();
@@ -25,7 +26,7 @@ class _SavedScreenState extends State<SavedScreen> {
 
   List<PropertyModel> get _savedProperties {
     final savedIds = _repo.getSavedIds();
-    return kDummyProperties.where((p) => savedIds.contains(p.id)).toList();
+    return widget.properties.where((p) => savedIds.contains(p.id)).toList();
   }
 
   @override
@@ -45,7 +46,7 @@ class _SavedScreenState extends State<SavedScreen> {
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.only(top: 8, bottom: 16),
+            padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
             itemCount: saved.length,
             itemBuilder: (context, index) {
               final property = saved[index];

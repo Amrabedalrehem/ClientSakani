@@ -1,6 +1,7 @@
 
  
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingButton extends StatelessWidget {
   final String label;
@@ -16,7 +17,7 @@ class OnboardingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 54,
+      height: 54.h,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
@@ -24,7 +25,7 @@ class OnboardingButton extends StatelessWidget {
           foregroundColor: const Color(0xFF1A7EC8),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30.r),
           ),
         ),
         child: AnimatedSwitcher(
@@ -32,8 +33,8 @@ class OnboardingButton extends StatelessWidget {
           child: Text(
             label,
             key: ValueKey(label),
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
           ),

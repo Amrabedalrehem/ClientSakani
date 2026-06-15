@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/presention/settings/component/lang_button.dart';
 import 'package:flutter_application_1/presention/settings/component/settings_tile.dart';
  
@@ -26,30 +27,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 44.w,
+              height: 44.h,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF1A7EC8), Color(0xFF0FA89A)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.settings_rounded,
                 color: Colors.white,
-                size: 24,
+                size: 24.sp,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Settings',
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1A1A2E),
                   ),
@@ -57,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   'Customize your experience',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: Colors.grey[500],
                     fontWeight: FontWeight.w400,
                   ),
@@ -68,12 +69,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Divider(color: Color(0xFFEEEEEE), height: 1),
-            const SizedBox(height: 8),
+            Divider(color: Color(0xFFEEEEEE), height: 1.h),
+            SizedBox(height: 8.h),
 
             SettingsTile(
               icon: _isDarkMode
@@ -91,9 +92,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
 
-            const SizedBox(height: 4),
-            const Divider(color: Color(0xFFEEEEEE), height: 1),
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
+            Divider(color: Color(0xFFEEEEEE), height: 1.h),
+            SizedBox(height: 4.h),
 
             SettingsTile(
               icon: Icons.language_rounded,
@@ -105,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xFFEEEEEE),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -129,8 +130,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
 
-            const SizedBox(height: 4),
-            const Divider(color: Color(0xFFEEEEEE), height: 1),
+            SizedBox(height: 4.h),
+            Divider(color: Color(0xFFEEEEEE), height: 1.h),
           ],
         ),
       ),

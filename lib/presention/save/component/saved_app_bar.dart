@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SavedAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -23,8 +24,8 @@ class SavedAppBar extends StatelessWidget
       title: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 44.w,
+            height: 44.h,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [
@@ -34,22 +35,22 @@ class SavedAppBar extends StatelessWidget
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.bookmark_rounded,
               color: Colors.white,
-              size: 24,
+              size: 24.sp,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Saved',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF1A1A2E),
                 ),
@@ -57,7 +58,7 @@ class SavedAppBar extends StatelessWidget
               Text(
                 '$savedCount properties saved',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),

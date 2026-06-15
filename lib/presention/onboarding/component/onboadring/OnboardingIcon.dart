@@ -2,6 +2,7 @@
 
  
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingIcon extends StatefulWidget {
   final IconData icon;
@@ -41,23 +42,23 @@ class _OnboardingIconState extends State<OnboardingIcon>
     return ScaleTransition(
       scale: _pulseAnim,
       child: Container(
-        width: 140,
-        height: 140,
+        width: 140.w,
+        height: 140.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white.withOpacity(0.20),
         ),
         child: Center(
           child: Container(
-            width: 90,
-            height: 90,
+            width: 90.w,
+            height: 90.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withOpacity(0.30),
             ),
             child: Icon(
               widget.icon,
-              size: 44,
+              size: 44.sp,
               color: Colors.white,
             ),
           ),

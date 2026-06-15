@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 
-enum PropertyGender { males, females, mixed }
+enum PropertyGender { males, females }
 
 enum AvailabilityStatus { available, fullyBooked, limitedBeds }
 
@@ -139,4 +139,73 @@ class FilterValues {
     required this.gender,
     this.maxPrice,
   });
+}
+
+
+enum GenderFilter { all, males, females }
+
+extension GenderFilterExt on GenderFilter {
+  String get label {
+    switch (this) {
+      case GenderFilter.all:
+        return 'All';
+      case GenderFilter.males:
+        return 'Males';
+      case GenderFilter.females:
+        return 'Females';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case GenderFilter.all:
+        return Icons.people_rounded;
+      case GenderFilter.males:
+        return Icons.male_rounded;
+      case GenderFilter.females:
+        return Icons.female_rounded;
+    }
+  }
+
+  Color get activeColor {
+    switch (this) {
+      case GenderFilter.all:
+        return const Color(0xFF1A7EC8);
+      case GenderFilter.males:
+        return const Color(0xFF1A7EC8);
+      case GenderFilter.females:
+        return const Color(0xFFE91E8C);
+    }
+  }
+}
+
+ 
+ 
+extension PropertyGenderExt on PropertyGender {
+  String get label {
+    switch (this) {
+      case PropertyGender.males:
+        return 'Males';
+      case PropertyGender.females:
+        return 'Females';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case PropertyGender.males:
+        return Icons.male_rounded;
+      case PropertyGender.females:
+        return Icons.female_rounded;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case PropertyGender.males:
+        return const Color(0xFF1A7EC8);
+      case PropertyGender.females:
+        return const Color(0xFFE91E8C);
+    }
+  }
 }

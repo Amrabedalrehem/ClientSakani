@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
-import 'package:flutter_application_1/data/model/HomeData.dart';
+import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:flutter_application_1/presention/home/component/AreaDropdown.dart';
 import 'package:flutter_application_1/presention/home/component/GenderChips.dart';
 import 'package:flutter_application_1/presention/home/component/PriceInput.dart';
@@ -12,11 +13,13 @@ import 'package:flutter_application_1/presention/home/component/PriceInput.dart'
 class HomeFilterSection extends StatefulWidget {
   final ValueChanged<int> onActiveFiltersChanged;
   final ValueChanged<FilterValues> onFiltersChanged; 
+  final List<String> areas;
 
   const HomeFilterSection({
     super.key,
     required this.onActiveFiltersChanged,
     required this.onFiltersChanged,
+    required this.areas,
   });
 
   @override
@@ -65,20 +68,20 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            AreaDropdown(
             selectedArea: _selectedArea,
-            areas: kAreas,
+            areas: widget.areas,
             onChanged: (val) {
               setState(() => _selectedArea = val);
               _notifyFilterChange();
             },
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
            GenderChips(
             selected: _selectedGender,
@@ -88,7 +91,7 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
             },
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
            PriceInput(
             controller: _priceController,
@@ -102,13 +105,13 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
           ),
 
            if (_activeFiltersCount > 0) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             GestureDetector(
               onTap: _clearAllFilters,
-              child: const Text(
+              child: Text(
                 'Clear all filters',
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: Color(0xFF1A7EC8),
                   fontWeight: FontWeight.w600,
                 ),
