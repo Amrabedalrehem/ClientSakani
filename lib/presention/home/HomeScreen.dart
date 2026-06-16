@@ -26,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   BottomNavItem _currentNav = BottomNavItem.home;
+  final List<BottomNavItem> _navHistory = [BottomNavItem.home];
   int _activeFiltersCount = 0;
   bool _showFilters = false;
   bool _isLoading = true;
@@ -110,6 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onFiltersTap() {
     setState(() => _showFilters = !_showFilters);
+  }
+
+  void _onTabTapped(BottomNavItem item) {
+    if (_currentNav == item) return;
+    setState(() {
+      _navHistory.remove(item);
+      _navHistory.add(item);
+      _currentNav = item;
+    });
   }
 
   void _onPropertyTap(PropertyModel property) {
@@ -221,9 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final property = filtered[index];
+                        final isSaved = _savedRepo.isSaved(property.id);
+                        final updatedProperty = property.copyWith(isSaved: isSaved);
                         return PropertyCard(
-                          property: property,
-                          onTap: () => _onPropertyTap(property),
+                          property: updatedProperty,
+                          onTap: () => _onPropertyTap(updatedProperty),
                           onSaveToggle: (val) => _toggleSave(property.id, val),
                         );
                       },
@@ -244,14 +256,23 @@ class _HomeScreenState extends State<HomeScreen> {
       BottomNavItem.settings: 3,
     };
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FA),
-       appBar: _currentNav == BottomNavItem.home
-          ? HomeAppBar(
-              activeFiltersCount: _activeFiltersCount,
-              onFiltersTap: _onFiltersTap,
-            )
-          : null,
+    return PopScope(
+      canPop: _navHistory.length <= 1,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        setState(() {
+          _navHistory.removeLast();
+          _currentNav = _navHistory.last;
+        });
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF4F6FA),
+         appBar: _currentNav == BottomNavItem.home
+            ? HomeAppBar(
+                activeFiltersCount: _activeFiltersCount,
+                onFiltersTap: _onFiltersTap,
+              )
+            : null,
       body: IndexedStack(
         index: navIndex[_currentNav]!,
         children: [
@@ -261,9 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
            SavedScreen(
             properties: _properties,
-            onBrowseTap: () {
-              setState(() => _currentNav = BottomNavItem.home);
-            },
+            onBrowseTap: () => _onTabTapped(BottomNavItem.home),
           ),
  
           const SettingsScreen(),
@@ -275,11 +294,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return HomeBottomNavBar(
             currentItem: _currentNav,
             savedCount: _savedRepo.savedCount,
-            onItemSelected: (item) {
-              setState(() => _currentNav = item);
-            },
+            onItemSelected: _onTabTapped,
           );
         },
+      ),
       ),
     );
   }

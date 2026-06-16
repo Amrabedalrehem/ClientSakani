@@ -17,7 +17,7 @@ class MapScreen extends StatefulWidget {
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
-
+ 
 class _MapScreenState extends State<MapScreen> {
   final SavedRepository _repo = SavedRepository();
   PropertyModel? _selectedProperty;
@@ -63,7 +63,7 @@ class _MapScreenState extends State<MapScreen> {
               initialCenter: _properties.isNotEmpty && _properties.first.lat != 0
                   ? LatLng(_properties.first.lat, _properties.first.lng)
                   : (_properties.isNotEmpty ? LatLng(_properties.first.lat, _properties.first.lng) : const LatLng(30.0444, 31.2357)),
-              initialZoom: _properties.isNotEmpty && _properties.first.lat == 0 ? 3 : 12, // Zoom out more if it's 0,0
+              initialZoom: _properties.isNotEmpty && _properties.first.lat == 0 ? 3 : 12,  
               onTap: (_, __) =>
                   setState(() => _selectedProperty = null),
             ),
