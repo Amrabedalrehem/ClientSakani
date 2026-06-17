@@ -1,128 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:flutter_application_1/core/dp/HiveService.dart';
-import 'package:flutter_application_1/data/repo/SavedRepository.dart';
-import 'package:flutter_application_1/data/model/AreaModel.dart';
 import 'package:flutter_application_1/presention/detail/property_detail_screen.dart';
 import 'package:flutter_application_1/presention/home/component/EmptyState.dart';
-import 'package:flutter_application_1/presention/home/component/HomeAppBar.dart' show HomeAppBar;
+import 'package:flutter_application_1/presention/home/component/HomeAppBar.dart';
 import 'package:flutter_application_1/presention/home/component/HomeBottomNavBar.dart';
 import 'package:flutter_application_1/presention/home/component/HomeFilterSection.dart';
 import 'package:flutter_application_1/presention/home/component/PropertyCard.dart';
+import 'package:flutter_application_1/presention/home/cubit/home_cubit.dart';
+import 'package:flutter_application_1/presention/map/cubit/map_cubit.dart';
 import 'package:flutter_application_1/presention/map/map_screen.dart';
 import 'package:flutter_application_1/presention/save/saved_screen.dart';
 import 'package:flutter_application_1/presention/settings/settings_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => HomeCubit()..fetchProperties(),
+      child: const _HomeView(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  BottomNavItem _currentNav = BottomNavItem.home;
-  final List<BottomNavItem> _navHistory = [BottomNavItem.home];
-  int _activeFiltersCount = 0;
-  bool _showFilters = false;
-  bool _isLoading = true;
+class _HomeView extends StatelessWidget {
+  const _HomeView();
 
-  final SavedRepository _savedRepo = SavedRepository();
-
-  List<PropertyModel> _properties = [];
-  List<AreaModel> _areaModels = [];
-  List<String> _areas = ['All Areas'];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchProperties();
-  }
-
-  Future<void> _fetchProperties() async {
-    try {
-      final results = await Future.wait([
-        _savedRepo.getApartments(),
-        _savedRepo.getAreas(),
-      ]);
-      setState(() {
-        _properties = results[0] as List<PropertyModel>;
-        _areaModels = results[1] as List<AreaModel>;
-        _areas = ['All Areas', ..._areaModels.map((e) => e.name)];
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _properties = []; 
-        _areaModels = [];
-        _areas = ['All Areas'];
-        _isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _fetchFilteredProperties(FilterValues values) async {
-    setState(() => _isLoading = true);
-    try {
-      int? areaId;
-      if (values.area != 'All Areas') {
-        final match = _areaModels.where((a) => a.name == values.area);
-        if (match.isNotEmpty) areaId = match.first.id;
-      }
-
-      int? genderId;
-      if (values.gender == GenderFilter.males) genderId = 0;
-      else if (values.gender == GenderFilter.females) genderId = 1;
-      
-      final maxPrice = values.maxPrice?.toDouble();
-
-      final properties = await _savedRepo.searchApartments(
-        areaId: areaId,
-        gender: genderId,
-        maxPrice: maxPrice,
-      );
-      setState(() {
-        _properties = properties;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _properties = [];
-        _isLoading = false;
-      });
-    }
-  }
-
-  FilterValues _filterValues = const FilterValues(
-    area: 'All Areas',
-    gender: GenderFilter.all,
-  );
-
-  int get _savedCount => _savedRepo.savedCount;
-
-  Future<void> _toggleSave(String id, bool val) async {
-    await _savedRepo.toggleSaved(id);
-    setState(() {});
-  }
-
-  void _onFiltersTap() {
-    setState(() => _showFilters = !_showFilters);
-  }
-
-  void _onTabTapped(BottomNavItem item) {
-    if (_currentNav == item) return;
-    setState(() {
-      _navHistory.remove(item);
-      _navHistory.add(item);
-      _currentNav = item;
-    });
-  }
-
-  void _onPropertyTap(PropertyModel property) {
+  void _onPropertyTap(BuildContext context, PropertyModel property) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -131,37 +41,136 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-   Widget _buildHomePage() {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        final cubit = context.read<HomeCubit>();
+
+         final HomeLoaded? loaded = state is HomeLoaded
+            ? state
+            : state is HomeFilterLoading
+                ? state.previousState
+                : null;
+
+        final currentNav = loaded?.currentNav ?? BottomNavItem.home;
+        final navHistory = loaded?.navHistory ?? [BottomNavItem.home];
+
+        final navIndex = {
+          BottomNavItem.home: 0,
+          BottomNavItem.map: 1,
+          BottomNavItem.saved: 2,
+          BottomNavItem.settings: 3,
+        };
+
+        return PopScope(
+          canPop: navHistory.length <= 1,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            cubit.popNav();
+          },
+          child: Scaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: currentNav == BottomNavItem.home
+                ? HomeAppBar(
+                    activeFiltersCount: loaded?.activeFiltersCount ?? 0,
+                    onFiltersTap: () => cubit.toggleFilters(),
+                  )
+                : null,
+            body: IndexedStack(
+              index: navIndex[currentNav]!,
+              children: [
+                _buildHomePage(context, state, loaded, cubit),
+                _buildMapPage(loaded),
+                SavedScreen(
+                  properties: loaded?.properties ?? [],
+                  onBrowseTap: () => cubit.changeTab(BottomNavItem.home),
+                ),
+                const SettingsScreen(),
+              ],
+            ),
+            bottomNavigationBar: ValueListenableBuilder(
+              valueListenable: HiveService.savedBox.listenable(),
+              builder: (context, box, _) {
+                return HomeBottomNavBar(
+                  currentItem: currentNav,
+                  savedCount: cubit.savedCount,
+                  onItemSelected: cubit.changeTab,
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMapPage(HomeLoaded? loaded) {
+    return BlocProvider(
+      create: (_) => MapCubit(),
+      child: MapScreen(properties: loaded?.properties ?? []),
+    );
+  }
+
+  Widget _buildHomePage(
+    BuildContext context,
+    HomeState state,
+    HomeLoaded? loaded,
+    HomeCubit cubit,
+  ) {
+    final isLoading = state is HomeLoading;
+    final isFilterLoading = state is HomeFilterLoading;
+    final isError = state is HomeError;
+
+    if (isError) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.grey, size: 48),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load properties',
+              style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () => cubit.fetchProperties(),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final properties = loaded?.properties ?? [];
+    final showFilters = loaded?.showFilters ?? false;
+    final areas = loaded?.areas ?? ['All Areas'];
+
     return ValueListenableBuilder(
       valueListenable: HiveService.savedBox.listenable(),
       builder: (context, box, _) {
-        final filtered = _properties;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              child: _showFilters
+              child: showFilters
                   ? HomeFilterSection(
-                      areas: _areas,
-                      onActiveFiltersChanged: (count) {
-                        setState(() => _activeFiltersCount = count);
-                      },
-                      onFiltersChanged: (values) {
-                        setState(() => _filterValues = values);
-                        _fetchFilteredProperties(values);
-                      },
+                      areas: areas,
+                      onActiveFiltersChanged: cubit.setActiveFiltersCount,
+                      onFiltersChanged: cubit.fetchFilteredProperties,
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ),
 
-            Divider(height: 1.h, thickness: 1, color: Color(0xFFEEEEEE)),
+            Divider(height: 1.h, thickness: 1, color: Theme.of(context).dividerColor),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 12, 16, 4),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
               child: Text(
-                '${filtered.length} properties found',
+                isLoading ? 'Loading...' : '${properties.length} properties found',
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: Colors.grey,
@@ -171,75 +180,41 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Expanded(
-              child: _isLoading 
-                  ? ListView.builder(
-                      padding: EdgeInsets.only(bottom: 16.h),
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await cubit.fetchProperties();
+                },
+                color: const Color(0xFF1A7EC8),
+                child: (isLoading)
+                    ? _buildShimmer(context)
+                    : (isFilterLoading)
+                        ? _buildShimmer(context)
+                        : properties.isEmpty
+                            ? Stack(
                                 children: [
-                                  Container(
-                                    height: 180.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(14.r),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(height: 20.h, width: double.infinity, color: Colors.white),
-                                        SizedBox(height: 12.h),
-                                        Container(height: 16.h, width: 200.w, color: Colors.white),
-                                        SizedBox(height: 12.h),
-                                        Container(height: 16.h, width: 140.w, color: Colors.white),
-                                        SizedBox(height: 16.h),
-                                        Row(
-                                          children: [
-                                            Container(height: 32.h, width: 80.w, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r))),
-                                            SizedBox(width: 8.w),
-                                            Container(height: 32.h, width: 80.w, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r))),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )
+                                  ListView(physics: const AlwaysScrollableScrollPhysics()),
+                                  const EmptyState(),
                                 ],
+                              )
+                            : ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                padding: EdgeInsets.only(bottom: 16.h),
+                                itemCount: properties.length,
+                                itemBuilder: (context, index) {
+                                  final property = properties[index];
+                                  final isSaved = cubit.isSaved(property.id);
+                                  final updatedProperty =
+                                      property.copyWith(isSaved: isSaved);
+                                  return PropertyCard(
+                                    property: updatedProperty,
+                                    onTap: () => _onPropertyTap(
+                                        context, updatedProperty),
+                                    onSaveToggle: (val) =>
+                                        cubit.toggleSave(property.id),
+                                  );
+                                },
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  : filtered.isEmpty
-                      ? const EmptyState()
-                      : ListView.builder(
-                      padding: EdgeInsets.only(bottom: 16.h),
-                      itemCount: filtered.length,
-                      itemBuilder: (context, index) {
-                        final property = filtered[index];
-                        final isSaved = _savedRepo.isSaved(property.id);
-                        final updatedProperty = property.copyWith(isSaved: isSaved);
-                        return PropertyCard(
-                          property: updatedProperty,
-                          onTap: () => _onPropertyTap(updatedProperty),
-                          onSaveToggle: (val) => _toggleSave(property.id, val),
-                        );
-                      },
-                    ),
+              ),
             ),
           ],
         );
@@ -247,58 +222,80 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-     final navIndex = {
-      BottomNavItem.home: 0,
-      BottomNavItem.map: 1,
-      BottomNavItem.saved: 2,
-      BottomNavItem.settings: 3,
-    };
+  Widget _buildShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final surfaceColor = Theme.of(context).colorScheme.surface;
 
-    return PopScope(
-      canPop: _navHistory.length <= 1,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        setState(() {
-          _navHistory.removeLast();
-          _currentNav = _navHistory.last;
-        });
-      },
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF4F6FA),
-         appBar: _currentNav == BottomNavItem.home
-            ? HomeAppBar(
-                activeFiltersCount: _activeFiltersCount,
-                onFiltersTap: _onFiltersTap,
-              )
-            : null,
-      body: IndexedStack(
-        index: navIndex[_currentNav]!,
-        children: [
-           _buildHomePage(),
-
-           MapScreen(properties: _properties),
-
-           SavedScreen(
-            properties: _properties,
-            onBrowseTap: () => _onTabTapped(BottomNavItem.home),
+    return ListView.builder(
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          child: Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: Container(
+              decoration: BoxDecoration(
+                color: surfaceColor,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 180.h,
+                    decoration: BoxDecoration(
+                      color: surfaceColor,
+                      borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16.r)),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(14.r),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            height: 20.h,
+                            width: double.infinity,
+                            color: surfaceColor),
+                        SizedBox(height: 12.h),
+                        Container(
+                            height: 16.h, width: 200.w, color: surfaceColor),
+                        SizedBox(height: 12.h),
+                        Container(
+                            height: 16.h, width: 140.w, color: surfaceColor),
+                        SizedBox(height: 16.h),
+                        Row(
+                          children: [
+                            Container(
+                                height: 32.h,
+                                width: 80.w,
+                                decoration: BoxDecoration(
+                                    color: surfaceColor,
+                                    borderRadius:
+                                        BorderRadius.circular(20.r))),
+                            SizedBox(width: 8.w),
+                            Container(
+                                height: 32.h,
+                                width: 80.w,
+                                decoration: BoxDecoration(
+                                    color: surfaceColor,
+                                    borderRadius:
+                                        BorderRadius.circular(20.r))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
- 
-          const SettingsScreen(),
-        ],
-      ),
-      bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: HiveService.savedBox.listenable(),
-        builder: (context, box, _) {
-          return HomeBottomNavBar(
-            currentItem: _currentNav,
-            savedCount: _savedRepo.savedCount,
-            onItemSelected: _onTabTapped,
-          );
-        },
-      ),
-      ),
+        );
+      },
     );
   }
 }

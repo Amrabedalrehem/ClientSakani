@@ -23,11 +23,11 @@ class PropertyCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.07),
+              color: Theme.of(context).shadowColor.withOpacity(0.07),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -36,7 +36,6 @@ class PropertyCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          
             PropertyImage(property: property, onSaveToggle: onSaveToggle),
              PropertyInfo(property: property),
           ],

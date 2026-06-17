@@ -31,15 +31,14 @@ class SettingsTile extends StatelessWidget {
           SizedBox(width: 14.w),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF1A1A2E),
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 Text(

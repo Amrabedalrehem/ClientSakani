@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -24,11 +23,11 @@ class PropertyCard extends StatelessWidget {
       child: Container(
       padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
+            color: Theme.of(context).shadowColor.withOpacity(0.12),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -59,24 +58,25 @@ class PropertyCard extends StatelessWidget {
 
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   property.name,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Text(property.area),
+                Text(property.area, style: TextStyle(color: Colors.grey)),
                 Text(
                   'EGP ${property.pricePerMonth}/mo',
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 ),
               ],
             ),
           ),
         
             IconButton(
-              icon: Icon(Icons.close),
+              icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
               onPressed: onClose,
             ),
           ],

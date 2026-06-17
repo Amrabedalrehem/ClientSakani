@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
  
 class PriceInput extends StatelessWidget {
@@ -59,7 +60,7 @@ class PriceInput extends StatelessWidget {
                   color: Color(0xFF333333),
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Max price per month',
+                  hintText: AppLocalizations.of(context)?.filterPriceRange ?? 'Max price per month',
                   hintStyle: TextStyle(
                     fontSize: 14.sp,
                     color: Colors.grey[400],

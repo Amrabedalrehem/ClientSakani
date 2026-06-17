@@ -8,7 +8,7 @@ import 'package:flutter_application_1/presention/home/component/GenderBadge.dart
 class PropertyInfo extends StatelessWidget {
   final PropertyModel property;
 
-  const PropertyInfo({required this.property});
+  const PropertyInfo({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class PropertyInfo extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A1A2E),
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),

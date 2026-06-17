@@ -14,11 +14,11 @@ class DetailHeaderCard extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Theme.of(context).shadowColor.withOpacity(0.06),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -36,7 +36,7 @@ class DetailHeaderCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A1A2E),
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -72,9 +72,7 @@ class DetailHeaderCard extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: 6.h),
-
           Row(
             children: [
               Icon(Icons.location_on_rounded,
@@ -86,10 +84,10 @@ class DetailHeaderCard extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: 12.h),
-
-          Row(
+          Wrap(
+            spacing: 8.w,
+            runSpacing: 8.h,
             children: [
               _Chip(
                 icon: Icons.bed_rounded,
@@ -98,10 +96,9 @@ class DetailHeaderCard extends StatelessWidget {
                 bgColor: const Color(0xFFE8F5E9),
                 fgColor: const Color(0xFF22C55E),
               ),
-              SizedBox(width: 8.w),
               _Chip(
                 icon: property.gender.icon,
-                label: '${property.gender.label} Only',
+                label:'${property.gender.label(context)} Only',
                 bgColor: const Color(0xFFEBF3FB),
                 fgColor: const Color(0xFF1A7EC8),
               ),

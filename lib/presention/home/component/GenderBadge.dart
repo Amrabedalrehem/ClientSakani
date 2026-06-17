@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 
 class GenderBadge extends StatelessWidget {
@@ -21,7 +20,7 @@ class GenderBadge extends StatelessWidget {
           Icon(gender.icon, size: 13.sp, color: gender.color),
           SizedBox(width: 4.w),
           Text(
-            gender.label,
+            gender.label(context),
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,

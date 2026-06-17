@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 
 enum PropertyGender { males, females }
@@ -89,16 +90,16 @@ class PropertyModel {
 enum BottomNavItem { home, map, saved, settings }
 
 extension BottomNavItemExt on BottomNavItem {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case BottomNavItem.home:
-        return 'Home';
+        return AppLocalizations.of(context)?.navHome ?? 'Home';
       case BottomNavItem.map:
-        return 'Map';
+        return AppLocalizations.of(context)?.navMap ?? 'Map';
       case BottomNavItem.saved:
-        return 'Saved';
+        return AppLocalizations.of(context)?.navSaved ?? 'Saved';
       case BottomNavItem.settings:
-        return 'Settings';
+        return AppLocalizations.of(context)?.navSettings ?? 'Settings';
     }
   }
 
@@ -145,14 +146,14 @@ class FilterValues {
 enum GenderFilter { all, males, females }
 
 extension GenderFilterExt on GenderFilter {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case GenderFilter.all:
-        return 'All';
+        return AppLocalizations.of(context)?.filterAll ?? 'All';
       case GenderFilter.males:
-        return 'Males';
+        return AppLocalizations.of(context)?.filterBoys ?? 'Males';
       case GenderFilter.females:
-        return 'Females';
+        return AppLocalizations.of(context)?.filterGirls ?? 'Females';
     }
   }
 
@@ -182,12 +183,12 @@ extension GenderFilterExt on GenderFilter {
  
  
 extension PropertyGenderExt on PropertyGender {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case PropertyGender.males:
-        return 'Males';
+        return AppLocalizations.of(context)?.filterBoys ?? 'Males';
       case PropertyGender.females:
-        return 'Females';
+        return AppLocalizations.of(context)?.filterGirls ?? 'Females';
     }
   }
 

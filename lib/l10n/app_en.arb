@@ -1,0 +1,53 @@
+{
+  "@@locale": "en",
+  "appTitle": "Student Housing",
+  "homeTitle": "Student Housing",
+  "homeSubtitle": "Find your perfect accommodation",
+  "savedProperties": "Saved Properties",
+  "settings": "Settings",
+  "language": "Language",
+  "darkMode": "Dark Mode",
+  "about": "About",
+  "browseListings": "Browse Listings",
+  "noSavedProperties": "No saved properties yet",
+  "noSavedPropertiesDesc": "Tap the bookmark icon on any listing to save it here for quick access.",
+  
+  "navHome": "Home",
+  "navMap": "Map",
+  "navSaved": "Saved",
+  "navSettings": "Settings",
+
+  "propertiesSaved": "{count} properties saved",
+  "@propertiesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterCategories": "Categories",
+  "filterAllAreas": "All Areas",
+  "filterAll": "All",
+  "filterBoys": "Boys",
+  "filterGirls": "Girls",
+  "filterMixed": "Mixed",
+  "filterPriceRange": "Price Range (EGP)",
+  "filterAmenities": "Amenities",
+  "filterApply": "Apply Filters",
+
+  "emptyFilterTitle": "No housing matches your filters.",
+  "emptyFilterDesc": "Clear all filters",
+
+  "detailLocation": "Location",
+  "detailHousingRules": "Housing Rules",
+  "detailAmenities": "Amenities",
+  "detailPricing": "Pricing",
+  "detailCode": "Building Code",
+  "contactNow": "Contact Now",
+
+  "beds": "beds",
+  "mo": "mo",
+  "month": "month",
+  "price": "Price"
+}

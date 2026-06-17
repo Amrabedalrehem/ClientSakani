@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 
- 
-
 class HomeBottomNavBar extends StatelessWidget {
   final BottomNavItem currentItem;
   final ValueChanged<BottomNavItem> onItemSelected;
   final int savedCount; 
+
   const HomeBottomNavBar({
     super.key,
     required this.currentItem,
@@ -19,10 +18,10 @@ class HomeBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Theme.of(context).shadowColor.withOpacity(0.08),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -51,7 +50,8 @@ class HomeBottomNavBar extends StatelessWidget {
     );
   }
 }
- class _NavBarItem extends StatelessWidget {
+
+class _NavBarItem extends StatelessWidget {
   final BottomNavItem item;
   final bool isActive;
   final int? badge;
@@ -67,7 +67,7 @@ class HomeBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const activeColor = Color(0xFF1A7EC8);
-    final inactiveColor = Colors.grey[500]!;
+    final inactiveColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
 
     return GestureDetector(
       onTap: onTap,
@@ -95,7 +95,7 @@ class HomeBottomNavBar extends StatelessWidget {
                   child: Container(
                     width: 18.w,
                     height: 18.h,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0xFF1A7EC8),
                       shape: BoxShape.circle,
                     ),
@@ -123,7 +123,7 @@ class HomeBottomNavBar extends StatelessWidget {
               fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
               color: isActive ? activeColor : inactiveColor,
             ),
-            child: Text(item.label),
+            child: Text(item.label(context)),
           ),
 
           SizedBox(height: 4.h),
@@ -132,7 +132,7 @@ class HomeBottomNavBar extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             width: isActive ? 6 : 0,
             height: isActive ? 6 : 0,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: activeColor,
               shape: BoxShape.circle,
             ),

@@ -13,11 +13,11 @@ class DetailCodeCard extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).shadowColor.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -41,7 +41,7 @@ class DetailCodeCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A1A2E),
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],

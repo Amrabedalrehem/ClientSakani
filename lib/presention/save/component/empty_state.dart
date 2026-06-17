@@ -11,6 +11,7 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -19,13 +20,13 @@ class EmptyState extends StatelessWidget {
             width: 80.w,
             height: 80.h,
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: isDark ? Colors.grey[800] : Colors.grey[100],
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.bookmark_border_rounded,
               size: 36.sp,
-              color: Colors.grey[400],
+              color: isDark ? Colors.grey[600] : Colors.grey[400],
             ),
           ),
           SizedBox(height: 24.h),
@@ -34,7 +35,7 @@ class EmptyState extends StatelessWidget {
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF1A1A2E),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           SizedBox(height: 10.h),

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:flutter_application_1/presention/home/component/AreaDropdown.dart';
 import 'package:flutter_application_1/presention/home/component/GenderChips.dart';
 import 'package:flutter_application_1/presention/home/component/PriceInput.dart';
- 
- 
- 
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomeFilterSection extends StatefulWidget {
   final ValueChanged<int> onActiveFiltersChanged;
@@ -67,7 +63,7 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +105,7 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
             GestureDetector(
               onTap: _clearAllFilters,
               child: Text(
-                'Clear all filters',
+                AppLocalizations.of(context)?.emptyFilterDesc ?? 'Clear all filters',
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: Color(0xFF1A7EC8),
@@ -123,5 +119,3 @@ class _HomeFilterSectionState extends State<HomeFilterSection> {
     );
   }
 }
-
- 

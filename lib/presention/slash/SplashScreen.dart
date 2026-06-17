@@ -11,10 +11,25 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnim;
+  late Animation<double> _scaleAnim;
+
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _fadeAnim = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _scaleAnim = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    );
+    _controller.forward();
+
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         if (SettingsService.isFirstTime) {
@@ -33,48 +48,80 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF1A7EC8),  
-              Color(0xFF0FA89A),  
+              Color(0xFF1A7EC8),
+              Color(0xFF0FA89A),
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        child: FadeTransition(
+          opacity: _fadeAnim,
+          child: ScaleTransition(
+            scale: _scaleAnim,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Container(
+                  width: 80.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(24.r),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.4),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.home_rounded,
+                    color: Colors.white,
+                    size: 42.sp,
+                  ),
+                ),
+
+                SizedBox(height: 24.h),
+
+                Text(
+                  'Sakani',
+                  style: TextStyle(
+                    fontSize: 36.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+
+                SizedBox(height: 6.h),
+
+                Text(
+                  'STUDENT HOUSING',
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white.withOpacity(0.85),
+                    letterSpacing: 3.5,
+                  ),
+                ),
 
 
-             Text(
-              'Sakani',
-              style: TextStyle(
-                fontSize: 32.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 0.5,
-              ),
+              ],
             ),
-
-            SizedBox(height: 6.h),
-
-             Text(
-              'STUDENT HOUSING',
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                letterSpacing: 3.5,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

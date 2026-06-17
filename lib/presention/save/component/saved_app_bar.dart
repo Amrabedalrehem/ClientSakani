@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
-class SavedAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+class SavedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int savedCount;
 
   const SavedAppBar({
@@ -17,7 +17,7 @@ class SavedAppBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       scrolledUnderElevation: 0,
       titleSpacing: 16,
@@ -48,17 +48,18 @@ class SavedAppBar extends StatelessWidget
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Saved',
+                AppLocalizations.of(context)?.savedProperties ?? 'Saved Properties',
                 style: TextStyle(
                   fontSize: 17.sp,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1A1A2E),
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Text(
-                '$savedCount properties saved',
+                AppLocalizations.of(context)?.propertiesSaved(savedCount) ?? '$savedCount properties saved',
                 style: TextStyle(
                   fontSize: 12.sp,
+                  color: Colors.grey[500],
                   fontWeight: FontWeight.w400,
                 ),
               ),

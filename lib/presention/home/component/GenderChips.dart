@@ -40,7 +40,7 @@ import 'package:flutter_application_1/core/const/HomeConst.dart';
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      gender.label,
+                      gender.label(context),
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,

@@ -1,0 +1,53 @@
+{
+  "@@locale": "ar",
+  "appTitle": "سكن الطلاب",
+  "homeTitle": "سكن الطلاب",
+  "homeSubtitle": "ابحث عن سكنك المثالي",
+  "savedProperties": "العقارات المحفوظة",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "darkMode": "الوضع الليلي",
+  "about": "حول التطبيق",
+  "browseListings": "تصفح العقارات",
+  "noSavedProperties": "لا توجد عقارات محفوظة بعد",
+  "noSavedPropertiesDesc": "اضغط على أيقونة الحفظ على أي عقار لحفظه هنا للوصول السريع.",
+
+  "navHome": "الرئيسية",
+  "navMap": "الخريطة",
+  "navSaved": "المحفوظات",
+  "navSettings": "الإعدادات",
+
+  "propertiesSaved": "{count} عقارات محفوظة",
+  "@propertiesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterCategories": "الفئات",
+  "filterAllAreas": "كل المناطق",
+  "filterAll": "الكل",
+  "filterBoys": "بنين",
+  "filterGirls": "بنات",
+  "filterMixed": "مختلط",
+  "filterPriceRange": "نطاق السعر (جنيه)",
+  "filterAmenities": "المميزات",
+  "filterApply": "تطبيق الفلاتر",
+
+  "emptyFilterTitle": "لا يوجد سكن يطابق بحثك.",
+  "emptyFilterDesc": "مسح الفلاتر",
+
+  "detailLocation": "الموقع",
+  "detailHousingRules": "قواعد السكن",
+  "detailAmenities": "المميزات",
+  "detailPricing": "السعر",
+  "detailCode": "كود المبنى",
+  "contactNow": "تواصل الآن",
+
+  "beds": "أسرة",
+  "mo": "شهرياً",
+  "month": "شهر",
+  "price": "السعر"
+}

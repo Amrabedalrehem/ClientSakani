@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 class AreaDropdown extends StatelessWidget {
   final String selectedArea;
   final List<String> areas;
@@ -58,7 +59,7 @@ class AreaDropdown extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    area,
+                    area == 'All Areas' ? (AppLocalizations.of(context)?.filterAllAreas ?? 'All Areas') : area,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: isSelected

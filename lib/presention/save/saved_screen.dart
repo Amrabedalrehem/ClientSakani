@@ -9,66 +9,55 @@ import 'package:flutter_application_1/presention/save/component/empty_state.dart
 import 'package:flutter_application_1/presention/save/component/saved_app_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
- 
- 
-class SavedScreen extends StatefulWidget {
+class SavedScreen extends StatelessWidget {
   final VoidCallback onBrowseTap;
   final List<PropertyModel> properties;
 
-  const SavedScreen({super.key, required this.onBrowseTap, required this.properties});
-
-  @override
-  State<SavedScreen> createState() => _SavedScreenState();
-}
-
-class _SavedScreenState extends State<SavedScreen> {
-  final SavedRepository _repo = SavedRepository();
-
-  List<PropertyModel> get _savedProperties {
-    final savedIds = _repo.getSavedIds();
-    return widget.properties.where((p) => savedIds.contains(p.id)).toList();
-  }
+  const SavedScreen({
+    super.key,
+    required this.onBrowseTap,
+    required this.properties,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FA),
-      appBar: SavedAppBar(savedCount: _savedProperties.length),
-      body: ValueListenableBuilder(
-        valueListenable: HiveService.savedBox.listenable(),
-        builder: (context, box, _) {
-          final saved = _savedProperties;
+    final repo = SavedRepository();
 
-          if (saved.isEmpty) {
-            return EmptyState(
-              onBrowseTap: widget.onBrowseTap,
-            );
-          }
+    return ValueListenableBuilder(
+      valueListenable: HiveService.savedBox.listenable(),
+      builder: (context, box, _) {
+        final savedIds = repo.getSavedIds();
+        final saved =
+            properties.where((p) => savedIds.contains(p.id)).toList();
 
-          return ListView.builder(
-            padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
-            itemCount: saved.length,
-            itemBuilder: (context, index) {
-              final property = saved[index];
-
-              return PropertyCard(
-                property: property.copyWith(isSaved: true),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => PropertyDetailScreen(
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: SavedAppBar(savedCount: saved.length),
+          body: saved.isEmpty
+              ? EmptyState(onBrowseTap: onBrowseTap)
+              : ListView.builder(
+                  padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
+                  itemCount: saved.length,
+                  itemBuilder: (context, index) {
+                    final property = saved[index];
+                    return PropertyCard(
                       property: property.copyWith(isSaved: true),
-                    ),
-                  ),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => PropertyDetailScreen(
+                            property: property.copyWith(isSaved: true),
+                          ),
+                        ),
+                      ),
+                      onSaveToggle: (val) async {
+                        await repo.toggleSaved(property.id);
+                      },
+                    );
+                  },
                 ),
-                onSaveToggle: (val) async {
-                  await _repo.toggleSaved(property.id);
-                },
-              );
-            },
-          );
-        },
-      ),
+        );
+      },
     );
   }
 }
