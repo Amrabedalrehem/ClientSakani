@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/data/datasource/HomeDataSource.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailHeaderCard extends StatelessWidget {
   final PropertyModel property;
@@ -44,28 +45,17 @@ class DetailHeaderCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        '\$ ',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF22C55E),
-                        ),
-                      ),
-                      Text(
-                        '${property.pricePerMonth}',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF22C55E),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    AppLocalizations.of(context)?.pricePerMo(property.pricePerMonth) ??
+                        'EGP ${property.pricePerMonth}/mo',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF22C55E),
+                    ),
                   ),
                   Text(
-                    'per month',
+                    AppLocalizations.of(context)?.perMonth ?? 'per month',
                     style: TextStyle(fontSize: 11.sp, color: Colors.grey),
                   ),
                 ],
@@ -91,14 +81,16 @@ class DetailHeaderCard extends StatelessWidget {
             children: [
               _Chip(
                 icon: Icons.bed_rounded,
-                label:
-                    '${property.availableBeds} of ${property.totalBeds} beds available',
+                label: AppLocalizations.of(context)?.bedsAvailable(
+                          property.availableBeds, property.totalBeds) ??
+                      '${property.availableBeds} of ${property.totalBeds} beds available',
                 bgColor: const Color(0xFFE8F5E9),
                 fgColor: const Color(0xFF22C55E),
               ),
               _Chip(
                 icon: property.gender.icon,
-                label:'${property.gender.label(context)} Only',
+                label: AppLocalizations.of(context)?.onlyLabel(property.gender.label(context)) ??
+                    '${property.gender.label(context)} Only',
                 bgColor: const Color(0xFFEBF3FB),
                 fgColor: const Color(0xFF1A7EC8),
               ),

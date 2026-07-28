@@ -36,9 +36,25 @@ class HomeCubit extends Cubit<HomeState> {
           area: 'All Areas',
           gender: GenderFilter.all,
         ),
+        isOffline: false,
       ));
     } catch (e) {
-      emit(HomeError(e.toString()));
+      final cachedProperties = _repo.getCachedApartments();
+      final cachedAreas = _repo.getCachedAreas();
+      emit(HomeLoaded(
+        properties: cachedProperties,
+        areaModels: cachedAreas,
+        areas: ['All Areas', ...cachedAreas.map((e) => e.name)],
+        currentNav: BottomNavItem.home,
+        navHistory: [BottomNavItem.home],
+        showFilters: false,
+        activeFiltersCount: 0,
+        filterValues: const FilterValues(
+          area: 'All Areas',
+          gender: GenderFilter.all,
+        ),
+        isOffline: true,
+      ));
     }
   }
 
@@ -67,29 +83,37 @@ class HomeCubit extends Cubit<HomeState> {
         gender: genderId,
         maxPrice: values.maxPrice?.toDouble(),
       );
+      final sortedProperties = _sortProperties(properties, values.sortOrder);
 
       emit(current.copyWith(
-        properties: properties,
+        properties: sortedProperties,
         filterValues: values,
+        activeFiltersCount: values.activeCount,
+        showFilters: values.activeCount > 0 ? true : current.showFilters,
+        isOffline: false,
       ));
     } catch (e) {
-      emit(current.copyWith(properties: []));
+      emit(current.copyWith(isOffline: true));
     }
   }
 
+  Future<void> clearFilters() async {
+    await fetchProperties();
+  }
+
  
-  Future<void> toggleSave(String id) async {
-    await _repo.toggleSaved(id);
-     final current = state;
-    if (current is HomeLoaded) {
+  Future<void> toggleSave(PropertyModel property) async {
+    await _repo.toggleSaved(property);
+    final current = _loadedStateOrNull();
+    if (current != null) {
       emit(current.copyWith());
     }
   }
 
- 
+  
   void changeTab(BottomNavItem item) {
-    final current = state;
-    if (current is! HomeLoaded) return;
+    final current = _loadedStateOrNull();
+    if (current == null) return;
     if (current.currentNav == item) return;
 
     final newHistory = List<BottomNavItem>.from(current.navHistory)
@@ -99,33 +123,62 @@ class HomeCubit extends Cubit<HomeState> {
     emit(current.copyWith(
       currentNav: item,
       navHistory: newHistory,
+      showFilters: false,
     ));
   }
 
   bool popNav() {
-    final current = state;
-    if (current is! HomeLoaded) return false;
+    final current = _loadedStateOrNull();
+    if (current == null) return false;
     if (current.navHistory.length <= 1) return false;
 
     final newHistory = List<BottomNavItem>.from(current.navHistory)..removeLast();
     emit(current.copyWith(
       currentNav: newHistory.last,
       navHistory: newHistory,
+      showFilters: false,
     ));
     return true;
   }
 
+  List<PropertyModel> _sortProperties(
+    List<PropertyModel> properties,
+    PriceSortOrder sortOrder,
+  ) {
+    final sorted = List<PropertyModel>.from(properties);
+
+    switch (sortOrder) {
+      case PriceSortOrder.lowToHigh:
+        sorted.sort((a, b) => a.pricePerMonth.compareTo(b.pricePerMonth));
+        break;
+      case PriceSortOrder.highToLow:
+        sorted.sort((a, b) => b.pricePerMonth.compareTo(a.pricePerMonth));
+        break;
+      case PriceSortOrder.none:
+        break;
+    }
+
+    return sorted;
+  }
+
   
   void toggleFilters() {
-    final current = state;
-    if (current is! HomeLoaded) return;
+    final current = _loadedStateOrNull();
+    if (current == null) return;
     emit(current.copyWith(showFilters: !current.showFilters));
   }
 
   void setActiveFiltersCount(int count) {
-    final current = state;
-    if (current is! HomeLoaded) return;
+    final current = _loadedStateOrNull();
+    if (current == null) return;
     emit(current.copyWith(activeFiltersCount: count));
+  }
+
+  HomeLoaded? _loadedStateOrNull() {
+    final current = state;
+    if (current is HomeLoaded) return current;
+    if (current is HomeFilterLoading) return current.previousState;
+    return null;
   }
 
  

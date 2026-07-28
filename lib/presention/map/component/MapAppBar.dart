@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_application_1/presention/home/component/FiltersButton.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/presention/map/component/filter_toggle.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final int activeFiltersCount;
-  final VoidCallback onFiltersTap;
+class MapAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool isSavedOnly;
+  final VoidCallback onToggle;
 
-  const HomeAppBar({
+  const MapAppBar({
     super.key,
-    required this.activeFiltersCount,
-    required this.onFiltersTap,
+    required this.isSavedOnly,
+    required this.onToggle,
   });
 
   @override
@@ -37,20 +37,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(
-              Icons.home_rounded,
+              Icons.map_rounded,
               color: Colors.white,
               size: 24.sp,
             ),
           ),
-
           SizedBox(width: 12.w),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalizations.of(context)?.homeTitle ?? 'SUKNA',
+                  AppLocalizations.of(context)?.mapViewTitle ?? 'Map View',
                   style: TextStyle(
                     fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
@@ -59,7 +57,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  AppLocalizations.of(context)?.homeSubtitle ?? 'Find your ideal home',
+                  AppLocalizations.of(context)?.mapSubtitle ?? 'Explore saved homes on the map',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey[500],
@@ -75,9 +73,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 16.w),
-          child: FiltersButton(
-            activeCount: activeFiltersCount,
-            onTap: onFiltersTap,
+          child: FilterToggle(
+            isSavedOnly: isSavedOnly,
+            onToggle: onToggle,
           ),
         ),
       ],

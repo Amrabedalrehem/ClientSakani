@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/presention/detail/component/detail_image_viewer_screen.dart';
 
 class DetailImageCarousel extends StatefulWidget {
   final List<String> images;
@@ -51,6 +52,19 @@ class _DetailImageCarouselState extends State<DetailImageCarousel> {
     );
   }
 
+  void _openImage(BuildContext context, int index) {
+    if (widget.images.isEmpty) return;
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => DetailImageViewerScreen(
+          images: widget.images,
+          initialIndex: index,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -61,14 +75,20 @@ class _DetailImageCarouselState extends State<DetailImageCarousel> {
             controller: _controller,
             itemCount: widget.images.length,
             onPageChanged: (i) => setState(() => _current = i),
-            itemBuilder: (_, i) => Image.network(
-              widget.images[i],
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorBuilder: (_, __, ___) => Container(
-                color: const Color(0xFFEEEEEE),
-                child: Icon(Icons.broken_image_rounded,
-                    size: 48.sp, color: Colors.grey),
+            itemBuilder: (context, i) => GestureDetector(
+              onTap: () => _openImage(context, i),
+              child: Hero(
+                tag: 'detail-image-$i',
+                child: Image.network(
+                  widget.images[i],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: const Color(0xFFEEEEEE),
+                    child: Icon(Icons.broken_image_rounded,
+                        size: 48.sp, color: Colors.grey),
+                  ),
+                ),
               ),
             ),
           ),

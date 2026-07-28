@@ -16,6 +16,7 @@ import 'package:flutter_application_1/presention/map/map_screen.dart';
 import 'package:flutter_application_1/presention/save/saved_screen.dart';
 import 'package:flutter_application_1/presention/settings/settings_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -73,7 +74,7 @@ class _HomeView extends StatelessWidget {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: currentNav == BottomNavItem.home
                 ? HomeAppBar(
-                    activeFiltersCount: loaded?.activeFiltersCount ?? 0,
+                    activeFiltersCount: loaded?.filterValues.activeCount ?? 0,
                     onFiltersTap: () => cubit.toggleFilters(),
                   )
                 : null,
@@ -81,9 +82,8 @@ class _HomeView extends StatelessWidget {
               index: navIndex[currentNav]!,
               children: [
                 _buildHomePage(context, state, loaded, cubit),
-                _buildMapPage(loaded),
+                _buildMapPage(),
                 SavedScreen(
-                  properties: loaded?.properties ?? [],
                   onBrowseTap: () => cubit.changeTab(BottomNavItem.home),
                 ),
                 const SettingsScreen(),
@@ -105,10 +105,10 @@ class _HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildMapPage(HomeLoaded? loaded) {
+  Widget _buildMapPage() {
     return BlocProvider(
       create: (_) => MapCubit(),
-      child: MapScreen(properties: loaded?.properties ?? []),
+      child: const MapScreen(),
     );
   }
 
@@ -121,8 +121,10 @@ class _HomeView extends StatelessWidget {
     final isLoading = state is HomeLoading;
     final isFilterLoading = state is HomeFilterLoading;
     final isError = state is HomeError;
+    final isOffline = loaded?.isOffline ?? false;
 
     if (isError) {
+      final l10n = AppLocalizations.of(context);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -130,13 +132,13 @@ class _HomeView extends StatelessWidget {
             const Icon(Icons.error_outline, color: Colors.grey, size: 48),
             const SizedBox(height: 12),
             Text(
-              'Failed to load properties',
+              l10n?.failedToLoad ?? 'Failed to load properties',
               style: TextStyle(color: Colors.grey, fontSize: 14.sp),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () => cubit.fetchProperties(),
-              child: const Text('Retry'),
+              child: Text(l10n?.retry ?? 'Retry'),
             ),
           ],
         ),
@@ -146,6 +148,9 @@ class _HomeView extends StatelessWidget {
     final properties = loaded?.properties ?? [];
     final showFilters = loaded?.showFilters ?? false;
     final areas = loaded?.areas ?? ['All Areas'];
+    final maxAvailablePrice = properties.isNotEmpty
+        ? properties.map((p) => p.pricePerMonth).reduce((a, b) => a > b ? a : b)
+        : null;
 
     return ValueListenableBuilder(
       valueListenable: HiveService.savedBox.listenable(),
@@ -153,12 +158,24 @@ class _HomeView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (isOffline)
+              _OfflineBanner(
+                title: AppLocalizations.of(context)?.offlineModeTitle ?? "You're offline",
+                subtitle: AppLocalizations.of(context)?.offlineModeDesc ??
+                    'Showing cached data when available.',
+              ),
             AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: showFilters
                   ? HomeFilterSection(
                       areas: areas,
+                      maxAllowedPrice: maxAvailablePrice,
+                      initialValues: loaded?.filterValues ??
+                          const FilterValues(
+                            area: 'All Areas',
+                            gender: GenderFilter.all,
+                          ),
                       onActiveFiltersChanged: cubit.setActiveFiltersCount,
                       onFiltersChanged: cubit.fetchFilteredProperties,
                     )
@@ -170,7 +187,9 @@ class _HomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
               child: Text(
-                isLoading ? 'Loading...' : '${properties.length} properties found',
+                isLoading
+                    ? (AppLocalizations.of(context)?.loadingProperties ?? 'Loading...')
+                    : (AppLocalizations.of(context)?.propertiesFound(properties.length) ?? '${properties.length} properties found'),
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: Colors.grey,
@@ -190,12 +209,23 @@ class _HomeView extends StatelessWidget {
                     : (isFilterLoading)
                         ? _buildShimmer(context)
                         : properties.isEmpty
-                            ? Stack(
-                                children: [
-                                  ListView(physics: const AlwaysScrollableScrollPhysics()),
-                                  const EmptyState(),
-                                ],
-                              )
+                            ? (isOffline
+                                ? _OfflineEmptyState(
+                                    title: AppLocalizations.of(context)?.offlineModeEmptyTitle ??
+                                        'No cached housing yet.',
+                                    subtitle: AppLocalizations.of(context)?.offlineModeEmptyDesc ??
+                                        'Connect once to load data, then it will stay available offline.',
+                                  )
+                                : Stack(
+                                    children: [
+                                      ListView(
+                                        physics: const AlwaysScrollableScrollPhysics(),
+                                      ),
+                                      EmptyState(
+                                        onClearFilters: () => cubit.clearFilters(),
+                                      ),
+                                    ],
+                                  ))
                             : ListView.builder(
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 padding: EdgeInsets.only(bottom: 16.h),
@@ -210,7 +240,7 @@ class _HomeView extends StatelessWidget {
                                     onTap: () => _onPropertyTap(
                                         context, updatedProperty),
                                     onSaveToggle: (val) =>
-                                        cubit.toggleSave(property.id),
+                                        cubit.toggleSave(property),
                                   );
                                 },
                               ),
@@ -296,6 +326,133 @@ class _HomeView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _OfflineBanner extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _OfflineBanner({
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 6.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF7E8),
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: const Color(0xFFF2C96D)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 36.w,
+              height: 36.h,
+              decoration: const BoxDecoration(
+                color: Color(0xFFF2C96D),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.wifi_off_rounded, color: Colors.white),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF7A5A00),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 11.5.sp,
+                      color: const Color(0xFF7A5A00).withOpacity(0.8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OfflineEmptyState extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _OfflineEmptyState({
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 84.w,
+              height: 84.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A7EC8).withOpacity(0.10),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.cloud_off_rounded,
+                size: 40.sp,
+                color: const Color(0xFF1A7EC8),
+              ),
+            ),
+            SizedBox(height: 18.h),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w800,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: Colors.grey[600],
+                height: 1.5,
+              ),
+            ),
+            SizedBox(height: 18.h),
+            OutlinedButton.icon(
+              onPressed: () async {
+                await context.read<HomeCubit>().fetchProperties();
+              },
+              icon: const Icon(Icons.refresh_rounded),
+              label: Text(AppLocalizations.of(context)?.retry ?? 'Retry'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

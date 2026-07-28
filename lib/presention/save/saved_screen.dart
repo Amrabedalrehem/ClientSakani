@@ -9,49 +9,50 @@ import 'package:flutter_application_1/presention/save/component/empty_state.dart
 import 'package:flutter_application_1/presention/save/component/saved_app_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class SavedScreen extends StatelessWidget {
+class SavedScreen extends StatefulWidget {
   final VoidCallback onBrowseTap;
-  final List<PropertyModel> properties;
 
   const SavedScreen({
     super.key,
     required this.onBrowseTap,
-    required this.properties,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final repo = SavedRepository();
+  State<SavedScreen> createState() => _SavedScreenState();
+}
 
-    return ValueListenableBuilder(
+class _SavedScreenState extends State<SavedScreen> {
+  final SavedRepository _repo = SavedRepository();
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<Box<String>>(
       valueListenable: HiveService.savedBox.listenable(),
       builder: (context, box, _) {
-        final savedIds = repo.getSavedIds();
-        final saved =
-            properties.where((p) => savedIds.contains(p.id)).toList();
+        final saved = _repo.getSavedProperties();
 
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: SavedAppBar(savedCount: saved.length),
           body: saved.isEmpty
-              ? EmptyState(onBrowseTap: onBrowseTap)
+              ? EmptyState(onBrowseTap: widget.onBrowseTap)
               : ListView.builder(
                   padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
                   itemCount: saved.length,
                   itemBuilder: (context, index) {
-                    final property = saved[index];
+                    final property = saved[index].copyWith(isSaved: true);
                     return PropertyCard(
-                      property: property.copyWith(isSaved: true),
+                      property: property,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => PropertyDetailScreen(
-                            property: property.copyWith(isSaved: true),
+                            property: property,
                           ),
                         ),
                       ),
                       onSaveToggle: (val) async {
-                        await repo.toggleSaved(property.id);
+                        await _repo.toggleSaved(property);
                       },
                     );
                   },

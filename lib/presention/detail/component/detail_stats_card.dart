@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailStatsCard extends StatelessWidget {
   final PropertyModel property;
@@ -10,12 +11,12 @@ class DetailStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SectionCard(
-      title: 'Property Details',
+      title: AppLocalizations.of(context)?.propertyDetails ?? 'Property Details',
       child: Row(
         children: [
           Expanded(
             child: _StatBox(
-              label: 'Total Rooms',
+              label: AppLocalizations.of(context)?.totalRooms ?? 'Total Rooms',
               value: '${property.totalRooms}',
               bgColor: const Color(0xFFEBF3FB),
               valueColor: const Color(0xFF1A7EC8),
@@ -24,7 +25,7 @@ class DetailStatsCard extends StatelessWidget {
           SizedBox(width: 12.w),
           Expanded(
             child: _StatBox(
-              label: 'Total Beds',
+              label: AppLocalizations.of(context)?.totalBeds ?? 'Total Beds',
               value: '${property.totalBeds}',
               bgColor: const Color(0xFFE8F5E9),
               valueColor: const Color(0xFF22C55E),

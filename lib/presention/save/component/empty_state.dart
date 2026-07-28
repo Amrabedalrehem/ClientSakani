@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class EmptyState extends StatelessWidget {
   final VoidCallback onBrowseTap;
@@ -31,7 +32,7 @@ class EmptyState extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           Text(
-            'No saved properties yet',
+            AppLocalizations.of(context)?.noSavedProperties ?? 'No saved properties yet',
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
@@ -43,7 +44,8 @@ class EmptyState extends StatelessWidget {
             padding:
                 EdgeInsets.symmetric(horizontal: 48.w),
             child: Text(
-              'Tap the bookmark icon on any listing to save it here for quick access.',
+              AppLocalizations.of(context)?.noSavedPropertiesDesc ??
+                  'Tap the bookmark icon on any listing to save it here for quick access.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14.sp,
@@ -71,7 +73,7 @@ class EmptyState extends StatelessWidget {
                     BorderRadius.circular(30.r),
               ),
               child: Text(
-                'Browse Listings',
+                AppLocalizations.of(context)?.browseListingsBtn ?? 'Browse Listings',
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.bold,

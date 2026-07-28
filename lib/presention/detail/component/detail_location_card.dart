@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailLocationCard extends StatelessWidget {
   final PropertyModel property;
@@ -27,7 +28,7 @@ class DetailLocationCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Location',
+            AppLocalizations.of(context)?.detailLocation ?? 'Location',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,

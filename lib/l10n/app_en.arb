@@ -1,8 +1,8 @@
 {
   "@@locale": "en",
-  "appTitle": "Student Housing",
-  "homeTitle": "Student Housing",
-  "homeSubtitle": "Find your perfect accommodation",
+  "appTitle": "SUKNA",
+  "homeTitle": "SUKNA",
+  "homeSubtitle": "Find your ideal home",
   "savedProperties": "Saved Properties",
   "settings": "Settings",
   "language": "Language",
@@ -32,12 +32,26 @@
   "filterBoys": "Boys",
   "filterGirls": "Girls",
   "filterMixed": "Mixed",
-  "filterPriceRange": "Price Range (EGP)",
+  "filterPriceRange": "Price range",
+  "filterPriceHint": "Enter a max of {max} EGP to show lower prices",
+  "@filterPriceHint": {
+    "placeholders": {
+      "max": { "type": "int" }
+    }
+  },
   "filterAmenities": "Amenities",
   "filterApply": "Apply Filters",
+  "filtersButton": "Filters",
+  "sortPriceTitle": "Sort by price",
+  "sortPriceLowToHigh": "Low to high",
+  "sortPriceHighToLow": "High to low",
 
   "emptyFilterTitle": "No housing matches your filters.",
   "emptyFilterDesc": "Clear all filters",
+  "offlineModeTitle": "You're offline",
+  "offlineModeDesc": "Showing cached data when available.",
+  "offlineModeEmptyTitle": "No cached housing yet.",
+  "offlineModeEmptyDesc": "Connect once to load data, then it will stay available offline.",
 
   "detailLocation": "Location",
   "detailHousingRules": "Housing Rules",
@@ -49,5 +63,85 @@
   "beds": "beds",
   "mo": "mo",
   "month": "month",
-  "price": "Price"
+  "price": "Price",
+
+  "loadingProperties": "Loading...",
+  "propertiesFound": "{count} properties found",
+  "@propertiesFound": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "failedToLoad": "Failed to load properties",
+  "retry": "Retry",
+  "customizeExperience": "Customize your experience",
+  "currentlyDark": "Currently dark",
+  "currentlyLight": "Currently light",
+  "perMonth": "per month",
+  "bedsAvailable": "{available} of {total} beds available",
+  "@bedsAvailable": {
+    "placeholders": {
+      "available": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "onlyLabel": "{gender} Only",
+  "@onlyLabel": {
+    "placeholders": {
+      "gender": { "type": "String" }
+    }
+  },
+  "propertyDetails": "Property Details",
+  "totalRooms": "Total Rooms",
+  "totalBeds": "Total Beds",
+  "servicesIncluded": "Services Included",
+  "apartmentCode": "Apartment Code",
+
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingStart": "Get Started 🚀",
+  "onb1Title": "Welcome to SUKNA",
+  "onb1Sub": "Your #1 home-finding platform",
+  "onb1Desc": "Find the perfect home near your university — fast, safe, and hassle-free.",
+  "onb2Title": "Browse & Compare",
+  "onb2Sub": "All options in one place",
+  "onb2Desc": "Explore dozens of student housings with clear photos, prices, and amenities. Compare and choose what suits you.",
+  "onb3Title": "Contact Directly",
+  "onb3Sub": "No middlemen, no hassle",
+  "onb3Desc": "Reach landlords directly by phone and close the deal as fast as possible.",
+
+  "availableLabel": "{count} available",
+  "@availableLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "fullyBooked": "Fully Booked",
+  "bedsLeft": "{count} beds left",
+  "@bedsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "mapViewTitle": "Map View",
+  "mapSubtitle": "Explore saved homes on the map",
+  "savedOnly": "Saved only",
+  "allProperties": "All",
+  "legendSaved": "Saved",
+  "legendNotSaved": "Not saved",
+  "pricePerMo": "EGP {price}/mo",
+  "@pricePerMo": {
+    "placeholders": {
+      "price": { "type": "int" }
+    }
+  },
+
+  "removeFromSaved": "Remove from Saved",
+  "confirmRemove": "Are you sure you want to remove this property from your saved list?",
+  "cancel": "Cancel",
+  "yesRemove": "Yes, Remove",
+
+  "browseListings": "Browse Listings",
+  "browseListingsBtn": "Browse Listings"
 }

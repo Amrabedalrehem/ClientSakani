@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailServicesCard extends StatelessWidget {
   final PropertyModel property;
@@ -29,7 +30,7 @@ class DetailServicesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Services Included',
+            AppLocalizations.of(context)?.servicesIncluded ?? 'Services Included',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,

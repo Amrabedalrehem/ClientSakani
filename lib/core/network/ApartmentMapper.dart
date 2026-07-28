@@ -24,7 +24,7 @@ class ApartmentMapper {
       address: apt.address,
       phone: '',
       apartmentCode: apt.code.isNotEmpty ? apt.code : apt.id.toString(),
-      rules: apt.rules.isNotEmpty ? apt.rules : <String>[],
+      rules: apt.rules.isNotEmpty ? apt.rules : PropertyModel.defaultRules,
     );
   }
 

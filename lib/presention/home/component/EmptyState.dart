@@ -5,7 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState();
+  final VoidCallback onClearFilters;
+
+  const EmptyState({
+    super.key,
+    required this.onClearFilters,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class EmptyState extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           TextButton(
-            onPressed: () {},
+            onPressed: onClearFilters,
             child: Text(
               AppLocalizations.of(context)?.emptyFilterDesc ?? 'Clear all filters',
               style: TextStyle(

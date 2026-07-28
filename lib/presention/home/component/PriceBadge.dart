@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class PriceBadge extends StatelessWidget {
   final int price;
@@ -17,19 +18,11 @@ class PriceBadge extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '\$ ',
+            AppLocalizations.of(context)?.pricePerMo(price) ?? 'EGP $price/mo',
             style: TextStyle(
               fontSize: 12.sp,
               color: Color(0xFF4CAF50),
               fontWeight: FontWeight.w600,
-            ),
-          ),
-          Text(
-            '$price/mo',
-            style: TextStyle(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1A1A2E),
             ),
           ),
         ],

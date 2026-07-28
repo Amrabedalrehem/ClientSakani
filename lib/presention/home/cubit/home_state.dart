@@ -15,6 +15,7 @@ class HomeLoaded extends HomeState {
   final bool showFilters;
   final int activeFiltersCount;
   final FilterValues filterValues;
+  final bool isOffline;
 
   HomeLoaded({
     required this.properties,
@@ -25,6 +26,7 @@ class HomeLoaded extends HomeState {
     required this.showFilters,
     required this.activeFiltersCount,
     required this.filterValues,
+    this.isOffline = false,
   });
 
   HomeLoaded copyWith({
@@ -36,6 +38,7 @@ class HomeLoaded extends HomeState {
     bool? showFilters,
     int? activeFiltersCount,
     FilterValues? filterValues,
+    bool? isOffline,
   }) {
     return HomeLoaded(
       properties: properties ?? this.properties,
@@ -46,6 +49,7 @@ class HomeLoaded extends HomeState {
       showFilters: showFilters ?? this.showFilters,
       activeFiltersCount: activeFiltersCount ?? this.activeFiltersCount,
       filterValues: filterValues ?? this.filterValues,
+      isOffline: isOffline ?? this.isOffline,
     );
   }
 }

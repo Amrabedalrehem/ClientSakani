@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class AvailabilityChip extends StatelessWidget {
   final AvailabilityStatus status;
@@ -14,19 +15,19 @@ class AvailabilityChip extends StatelessWidget {
     switch (status) {
       case AvailabilityStatus.available:
         return _chip(
-          label: '$availableBeds available',
+          label: AppLocalizations.of(context)?.availableLabel(availableBeds) ?? '$availableBeds available',
           textColor: const Color(0xFF2E7D32),
           bgColor: const Color(0xFFE8F5E9),
         );
       case AvailabilityStatus.limitedBeds:
         return _chip(
-          label: '$availableBeds available',
+          label: AppLocalizations.of(context)?.availableLabel(availableBeds) ?? '$availableBeds available',
           textColor: const Color(0xFFE65100),
           bgColor: const Color(0xFFFFF3E0),
         );
       case AvailabilityStatus.fullyBooked:
         return _chip(
-          label: 'No availability',
+          label: AppLocalizations.of(context)?.fullyBooked ?? 'No availability',
           textColor: const Color(0xFFC62828),
           bgColor: const Color(0xFFFFEBEE),
         );

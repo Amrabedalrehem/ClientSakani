@@ -35,7 +35,7 @@ class SakaniApp extends StatelessWidget {
             splitScreenMode: true,
             builder: (context, child) {
               return MaterialApp(
-                title: 'Sakani',
+                title: 'SUKNA',
                 debugShowCheckedModeBanner: false,
                 locale: settingsState.language.toLowerCase() == 'ar' ? const Locale('ar') : const Locale('en'),
                 localizationsDelegates: const [

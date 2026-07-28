@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class PropertyCard extends StatelessWidget {
   final PropertyModel property;
@@ -68,7 +69,7 @@ class PropertyCard extends StatelessWidget {
                 ),
                 Text(property.area, style: TextStyle(color: Colors.grey)),
                 Text(
-                  'EGP ${property.pricePerMonth}/mo',
+                  AppLocalizations.of(context)?.pricePerMo(property.pricePerMonth) ?? 'EGP ${property.pricePerMonth}/mo',
                   style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 ),
               ],

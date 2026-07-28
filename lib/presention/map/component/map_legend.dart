@@ -1,31 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class MapLegend extends StatelessWidget {
   const MapLegend({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final scheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 10.w,
         vertical: 8.h,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? scheme.surface.withOpacity(0.88) : Colors.white.withOpacity(0.95),
         borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(
+          color: isDark ? Colors.white12 : Colors.black12,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _LegendRow(
             color: Color(0xFF1A7EC8),
-            label: 'Saved',
+            label: AppLocalizations.of(context)?.legendSaved ?? 'Saved',
           ),
           SizedBox(height: 4.h),
           _LegendRow(
             color: Colors.grey,
-            label: 'Not saved',
+            label: AppLocalizations.of(context)?.legendNotSaved ?? 'Not saved',
           ),
         ],
       ),
@@ -58,7 +65,10 @@ class _LegendRow extends StatelessWidget {
         SizedBox(width: 6.w),
         Text(
           label,
-          style: TextStyle(fontSize: 11.sp),
+          style: TextStyle(
+            fontSize: 11.sp,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       ],
     );

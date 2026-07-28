@@ -10,4 +10,11 @@ class AreaModel {
       name: json['name'] ?? json['Name'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
 }

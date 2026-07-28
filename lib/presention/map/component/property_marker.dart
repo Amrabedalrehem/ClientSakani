@@ -16,8 +16,10 @@ class PropertyMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        isSaved ? const Color(0xFF1A7EC8) : Colors.grey[600]!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isSaved
+        ? const Color(0xFF1A7EC8)
+        : (isDark ? Colors.white70 : Colors.grey[600]!);
     final size = isSelected ? 52.0 : 44.0;
 
     return AnimatedContainer(
@@ -27,7 +29,7 @@ class PropertyMarker extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2.5.w),
+        border: Border.all(color: isDark ? Colors.black26 : Colors.white, width: 2.5.w),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.4),

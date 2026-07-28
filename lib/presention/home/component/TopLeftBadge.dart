@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class TopLeftBadge extends StatelessWidget {
   final AvailabilityStatus status;
@@ -14,7 +15,9 @@ class TopLeftBadge extends StatelessWidget {
     if (status == AvailabilityStatus.available) return SizedBox.shrink();
 
     final isFullyBooked = status == AvailabilityStatus.fullyBooked;
-    final label = isFullyBooked ? 'Fully Booked' : '$availableBeds beds left';
+    final label = isFullyBooked 
+        ? (AppLocalizations.of(context)?.fullyBooked ?? 'Fully Booked')
+        : (AppLocalizations.of(context)?.bedsLeft(availableBeds) ?? '$availableBeds beds left');
     final color = isFullyBooked ? const Color(0xFFE53935) : const Color(0xFFFF9800);
 
     return Container(

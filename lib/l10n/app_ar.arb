@@ -1,14 +1,44 @@
 {
   "@@locale": "ar",
-  "appTitle": "سكن الطلاب",
-  "homeTitle": "سكن الطلاب",
-  "homeSubtitle": "ابحث عن سكنك المثالي",
+  "appTitle": "SUKNA",
+  "homeTitle": "SUKNA",
+  "homeSubtitle": "ابحث عن سكن مناسب",
   "savedProperties": "العقارات المحفوظة",
   "settings": "الإعدادات",
   "language": "اللغة",
   "darkMode": "الوضع الليلي",
   "about": "حول التطبيق",
   "browseListings": "تصفح العقارات",
+  "browseListingsBtn": "تصفح العقارات",
+  "availableLabel": "{count} متاح",
+  "@availableLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "fullyBooked": "محجوز بالكامل",
+  "bedsLeft": "{count} أسرة متبقية",
+  "@bedsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapViewTitle": "خريطة العقارات",
+  "mapSubtitle": "استعرض السكنات المحفوظة على الخريطة",
+  "savedOnly": "المحفوظات فقط",
+  "allProperties": "الكل",
+  "legendSaved": "محفوظ",
+  "legendNotSaved": "غير محفوظ",
+  "pricePerMo": "ج.م {price}/شهر",
+  "@pricePerMo": {
+    "placeholders": {
+      "price": { "type": "int" }
+    }
+  },
+  "removeFromSaved": "إزالة من المحفوظات",
+  "confirmRemove": "هل تريد إزالة هذا العقار من قائمة المحفوظات؟",
+  "cancel": "إلغاء",
+  "yesRemove": "نعم، إزالة",
   "noSavedProperties": "لا توجد عقارات محفوظة بعد",
   "noSavedPropertiesDesc": "اضغط على أيقونة الحفظ على أي عقار لحفظه هنا للوصول السريع.",
 
@@ -32,12 +62,26 @@
   "filterBoys": "بنين",
   "filterGirls": "بنات",
   "filterMixed": "مختلط",
-  "filterPriceRange": "نطاق السعر (جنيه)",
+  "filterPriceRange": "نطاق السعر",
+  "filterPriceHint": "اكتب بحد أقصى {max} جنيه عشان يظهر اللي أقل منه",
+  "@filterPriceHint": {
+    "placeholders": {
+      "max": { "type": "int" }
+    }
+  },
   "filterAmenities": "المميزات",
   "filterApply": "تطبيق الفلاتر",
+  "filtersButton": "الفلاتر",
+  "sortPriceTitle": "ترتيب السعر",
+  "sortPriceLowToHigh": "من الأقل إلى الأعلى",
+  "sortPriceHighToLow": "من الأعلى إلى الأقل",
 
   "emptyFilterTitle": "لا يوجد سكن يطابق بحثك.",
   "emptyFilterDesc": "مسح الفلاتر",
+  "offlineModeTitle": "أنت غير متصل",
+  "offlineModeDesc": "يتم عرض البيانات المخزنة محليًا إن وجدت.",
+  "offlineModeEmptyTitle": "لا توجد بيانات مخزنة بعد.",
+  "offlineModeEmptyDesc": "اتصل بالإنترنت مرة واحدة لتحميل البيانات، ثم ستظل متاحة بدون نت.",
 
   "detailLocation": "الموقع",
   "detailHousingRules": "قواعد السكن",
@@ -49,5 +93,50 @@
   "beds": "أسرة",
   "mo": "شهرياً",
   "month": "شهر",
-  "price": "السعر"
+  "price": "السعر",
+
+  "loadingProperties": "جاري التحميل...",
+  "propertiesFound": "{count} عقار متاح",
+  "@propertiesFound": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "failedToLoad": "فشل في تحميل العقارات",
+  "retry": "إعادة المحاولة",
+  "customizeExperience": "خصص تجربتك",
+  "currentlyDark": "الوضع الداكن مفعّل",
+  "currentlyLight": "الوضع الفاتح مفعّل",
+  "perMonth": "شهرياً",
+  "bedsAvailable": "{available} من {total} سرير متاح",
+  "@bedsAvailable": {
+    "placeholders": {
+      "available": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "onlyLabel": "{gender} فقط",
+  "@onlyLabel": {
+    "placeholders": {
+      "gender": { "type": "String" }
+    }
+  },
+  "propertyDetails": "تفاصيل العقار",
+  "totalRooms": "إجمالي الغرف",
+  "totalBeds": "إجمالي الأسرة",
+  "servicesIncluded": "الخدمات المتضمنة",
+  "apartmentCode": "كود الشقة",
+
+  "onboardingSkip": "تخطي",
+  "onboardingNext": "التالي",
+  "onboardingStart": "ابدأ الآن 🚀",
+  "onb1Title": "مرحباً بك في SUKNA",
+  "onb1Sub": "منصتك الأولى للعثور على السكن",
+  "onb1Desc": "ابحث عن السكن المثالي بالقرب من جامعتك — بسرعة وأمان وبدون عناء.",
+  "onb2Title": "تصفح وقارن",
+  "onb2Sub": "كل الخيارات في مكان واحد",
+  "onb2Desc": "اكتشف العشرات من مساكن الطلاب مع صور واضحة وأسعار ومميزات. قارن واختر ما يناسبك.",
+  "onb3Title": "تواصل مباشرة",
+  "onb3Sub": "بدون وسطاء، بدون عناء",
+  "onb3Desc": "تواصل مع الملاك مباشرة عبر الهاتف وأتمم الصفقة بأسرع وقت ممكن."
 }

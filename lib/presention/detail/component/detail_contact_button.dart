@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 class DetailContactButton extends StatelessWidget {
   final PropertyModel property;
 
@@ -46,7 +47,9 @@ class DetailContactButton extends StatelessWidget {
               Icon(Icons.phone_rounded, color: Colors.white, size: 20.sp),
               SizedBox(width: 10.w),
               Text(
-                property.phone.isNotEmpty ? property.phone : 'Contact Now',
+                property.phone.isNotEmpty
+                    ? property.phone
+                    : (AppLocalizations.of(context)?.contactNow ?? 'Contact Now'),
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.bold,

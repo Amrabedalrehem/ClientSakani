@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 Future<bool> showConfirmUnsaveDialog(BuildContext context) async {
   final bool? confirm = await showDialog<bool>(
@@ -52,7 +53,7 @@ class _ConfirmUnsaveDialog extends StatelessWidget {
             SizedBox(height: 16.h),
 
              Text(
-              'Remove from Saved',
+              AppLocalizations.of(context)?.removeFromSaved ?? 'Remove from Saved',
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -63,7 +64,7 @@ class _ConfirmUnsaveDialog extends StatelessWidget {
             SizedBox(height: 10.h),
 
              Text(
-              'Are you sure you want to remove this property from your saved list?',
+              AppLocalizations.of(context)?.confirmRemove ?? 'Are you sure you want to remove this property from your saved list?',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14.sp,
@@ -87,7 +88,7 @@ class _ConfirmUnsaveDialog extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          'Cancel',
+                          AppLocalizations.of(context)?.cancel ?? 'Cancel',
                           style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
@@ -122,7 +123,7 @@ class _ConfirmUnsaveDialog extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          'Yes, Remove',
+                          AppLocalizations.of(context)?.yesRemove ?? 'Yes, Remove',
                           style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,

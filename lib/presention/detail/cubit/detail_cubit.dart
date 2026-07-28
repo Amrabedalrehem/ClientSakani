@@ -39,7 +39,7 @@ class DetailCubit extends Cubit<DetailState> {
       if (confirm != true) return;
     }
 
-    await _repo.toggleSaved(current.property.id);
+    await _repo.toggleSaved(current.property);
     emit(current.copyWith(isSaved: _repo.isSaved(current.property.id)));
   }
 }

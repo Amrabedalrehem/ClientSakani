@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailRulesCard extends StatelessWidget {
   final PropertyModel property;
@@ -9,6 +10,10 @@ class DetailRulesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rules = property.rules.isNotEmpty
+        ? property.rules
+        : PropertyModel.defaultRules;
+
     return Container(
       margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
       padding: EdgeInsets.all(16.r),
@@ -27,7 +32,7 @@ class DetailRulesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Housing Rules',
+            AppLocalizations.of(context)?.detailHousingRules ?? 'Housing Rules',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
@@ -35,7 +40,7 @@ class DetailRulesCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12.h),
-          ...property.rules.map(
+          ...rules.map(
             (rule) => Padding(
               padding: EdgeInsets.only(bottom: 8.h),
               child: Row(

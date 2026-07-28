@@ -55,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Customize your experience',
+                      AppLocalizations.of(context)?.customizeExperience ?? 'Customize your experience',
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: Colors.grey[500],
@@ -81,7 +81,9 @@ class SettingsScreen extends StatelessWidget {
                       : Icons.wb_sunny_outlined,
                   iconColor: const Color(0xFFF59E0B),
                   title: AppLocalizations.of(context)?.darkMode ?? 'Dark Mode',
-                  subtitle: isDark ? 'Currently dark' : 'Currently light',
+                  subtitle: isDark
+                      ? (AppLocalizations.of(context)?.currentlyDark ?? 'Currently dark')
+                      : (AppLocalizations.of(context)?.currentlyLight ?? 'Currently light'),
                   trailing: Switch(
                     value: isDark,
                     onChanged: (_) => cubit.toggleDarkMode(),

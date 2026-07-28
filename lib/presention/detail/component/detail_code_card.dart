@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/HomeConst.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class DetailCodeCard extends StatelessWidget {
   final PropertyModel property;
@@ -30,7 +31,7 @@ class DetailCodeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Apartment Code',
+                  AppLocalizations.of(context)?.apartmentCode ?? 'Apartment Code',
                   style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                 ),
                 SizedBox(height: 4.h),

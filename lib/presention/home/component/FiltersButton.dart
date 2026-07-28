@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class FiltersButton extends StatelessWidget {
   final int activeCount;
@@ -36,7 +37,7 @@ class FiltersButton extends StatelessWidget {
             ),
             SizedBox(width: 6.w),
             Text(
-              'Filters',
+              AppLocalizations.of(context)?.filtersButton ?? 'Filters',
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,

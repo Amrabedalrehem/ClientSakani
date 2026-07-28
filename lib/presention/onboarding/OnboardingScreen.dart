@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application_1/core/const/OnboardingConst.dart';
  import 'package:flutter_application_1/data/shared%20prefrence/SettingsService.dart';
 import 'package:flutter_application_1/presention/home/HomeScreen.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/AnimatedGradientBackground.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/DotsIndicator.dart';
 import 'package:flutter_application_1/presention/onboarding/component/onboadring/OnboardingButton.dart';
@@ -25,7 +26,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < kOnboardingPages.length - 1) {
+    final pages = getOnboardingPages(context);
+    if (_currentPage < pages.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
@@ -61,11 +63,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLast = _currentPage == kOnboardingPages.length - 1;
+    final pages = getOnboardingPages(context);
+    final isLast = _currentPage == pages.length - 1;
 
     return Scaffold(
       body: AnimatedGradientBackground(
-        gradientColors: kOnboardingPages[_currentPage].gradientColors,
+        gradientColors: pages[_currentPage].gradientColors,
         child: SafeArea(
           child: Column(
             children: [
@@ -77,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: TextButton(
                     onPressed: isLast ? null : _onSkip,
                     child: Text(
-                      'Skip',
+                      AppLocalizations.of(context)?.onboardingSkip ?? 'Skip',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15.sp,
@@ -93,10 +96,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView.builder(
                   controller: _pageController,
                   onPageChanged: _onPageChanged,
-                  itemCount: kOnboardingPages.length,
+                  itemCount: pages.length,
                   itemBuilder: (context, index) {
                     return OnboardingPage(
-                      data: kOnboardingPages[index],
+                      data: pages[index],
                       isActive: index == _currentPage,
                     );
                   },
@@ -108,12 +111,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Column(
                   children: [
                     DotsIndicator(
-                      count: kOnboardingPages.length,
+                      count: pages.length,
                       current: _currentPage,
                     ),
                     SizedBox(height: 24.h),
                     OnboardingButton(
-                      label: isLast ? 'Get Started 🚀' : 'Next',
+                      label: isLast 
+                          ? (AppLocalizations.of(context)?.onboardingStart ?? 'Get Started 🚀')
+                          : (AppLocalizations.of(context)?.onboardingNext ?? 'Next'),
                       onTap: _nextPage,
                     ),
                   ],
